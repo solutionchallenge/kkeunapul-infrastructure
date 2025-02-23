@@ -17,6 +17,10 @@ jobs:
     defaults:
       run:
         shell: bash
+    
+    env:
+      TF_VAR_GCP_PROJECT_ID: ${{ vars.TF_VAR_GCP_PROJECT_ID }}
+      TF_VAR_GCP_PROJECT_NAME: ${{ vars.TF_VAR_GCP_PROJECT_NAME }}
 
     steps:
     - name: Checkout
@@ -46,9 +50,9 @@ jobs:
     - name: Terraform Init
       run: |
         terraform init \
-          -backend-config="bucket=${{ env.ENV_TFSTATE_BUCKET }}" \
-          -backend-config="key=${{ env.ENV_TFSTATE_KEY }}" \
-          -backend-config="endpoint=${{ env.ENV_TFSTATE_ENDPOINT }}" \
+          -backend-config="bucket=${{ vars.ENV_TFSTATE_BUCKET }}" \
+          -backend-config="key=${{ vars.ENV_TFSTATE_KEY }}" \
+          -backend-config="endpoint=${{ vars.ENV_TFSTATE_ENDPOINT }}" \
           -backend-config="access_key=${{ secrets.SECRET_TFSTATE_ACCESS_KEY }}" \
           -backend-config="secret_key=${{ secrets.SECRET_TFSTATE_SECRET_KEY }}" 
           
