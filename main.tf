@@ -11,14 +11,14 @@ terraform {
   }
   required_providers {
     cloudflare = {
-      source = "cloudflare/cloudflare"
+      source  = "cloudflare/cloudflare"
       version = "~> 4"
     }
   }
 }
 
 provider "google" {
-    alias = "gcp-zone-a"
-    project = var.GCP_PROJECT_ID
-    region = var.GCP_REGION_ID
+  alias   = "gcp-zone-a"
+  project = var.GCP_PROJECT_ID
+  region  = var.GCP_REGION_ID
 }
