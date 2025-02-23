@@ -20,7 +20,7 @@ jobs:
     
     env:
       TF_VAR_GCP_PROJECT_ID: ${{ vars.TF_VAR_GCP_PROJECT_ID }}
-      TF_VAR_GCP_PROJECT_NAME: ${{ vars.TF_VAR_GCP_PROJECT_NAME }}
+      TF_VAR_GCP_REGION_ID: ${{ vars.TF_VAR_GCP_REGION_ID }}
 
     steps:
     - name: Checkout
@@ -39,7 +39,7 @@ jobs:
         project_id: ${{ env.TF_VAR_GCP_PROJECT_ID }}
 
     - name: 'Report Google Environment'
-      run: 'echo "${{ env.TF_VAR_GCP_PROJECT_NAME }}:${{ env.TF_VAR_GCP_PROJECT_ID }}'
+      run: 'echo "${{ env.TF_VAR_GCP_REGION_ID }}:${{ env.TF_VAR_GCP_REGION_ID }}'
 
     - name: 'Use gcloud CLI'
       run: 'gcloud info'
