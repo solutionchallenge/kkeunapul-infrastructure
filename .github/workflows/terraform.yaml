@@ -21,8 +21,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-
-    steps:
+      
     - name: 'Log in Cloud SDK'
       id: 'auth'
       uses: 'google-github-actions/auth@v2'
