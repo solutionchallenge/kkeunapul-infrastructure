@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   terraform:
-    name: 'kkeunapul'
+    name: 'kkeunapul-production'
     runs-on: ubuntu-latest
     environment: production
   
@@ -21,7 +21,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      
+
     - name: 'Log in Cloud SDK'
       id: 'auth'
       uses: 'google-github-actions/auth@v2'
@@ -32,7 +32,7 @@ jobs:
       uses: 'google-github-actions/setup-gcloud@v2'
       with:
         version: '>= 363.0.0'
-        project_id: ${{ env.TF_VAR_GCP_PROJECT_ID }}
+        project_id: ${{ vars.TF_VAR_GCP_PROJECT_ID }}
 
     - name: 'Use gcloud CLI'
       run: 'gcloud info'
@@ -43,9 +43,9 @@ jobs:
     - name: Terraform Init
       run: |
         terraform init \
-          -backend-config="bucket=${{ env.ENV_TFSTATE_BUCKET }}" \
-          -backend-config="key=${{ env.ENV_TFSTATE_KEY }}" \
-          -backend-config="endpoint=${{ env.ENV_TFSTATE_ENDPOINT }}" \
+          -backend-config="bucket=${{ vars.ENV_TFSTATE_BUCKET }}" \
+          -backend-config="key=${{ vars.ENV_TFSTATE_KEY }}" \
+          -backend-config="endpoints.s3=${{ vars.ENV_TFSTATE_ENDPOINT }}" \
           -backend-config="access_key=${{ secrets.SECRET_TFSTATE_ACCESS_KEY }}" \
           -backend-config="secret_key=${{ secrets.SECRET_TFSTATE_SECRET_KEY }}" 
           
@@ -56,4 +56,5 @@ jobs:
       run: terraform plan -input=false
 
     - name: Terraform Apply
+      if: github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
