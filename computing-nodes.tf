@@ -1,6 +1,6 @@
 resource "google_container_node_pool" "primary" {
   project    = var.GCP_PROJECT_ID
-  name       = "${google_container_cluster.primary.name}-nodes-primary"
+  name       = "${var.GCP_PROJECT_ID}-nodes-primary"
   location   = var.GCP_REGION_ID
   cluster    = google_container_cluster.primary.name
   node_count = var.GCP_GKE_NODE_NUM
