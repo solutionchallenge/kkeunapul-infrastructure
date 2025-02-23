@@ -23,7 +23,8 @@ jobs:
       uses: actions/checkout@v4
 
     steps:
-    - id: 'auth'
+    - name: 'Log in Cloud SDK'
+      id: 'auth'
       uses: 'google-github-actions/auth@v2'
       with:
         credentials_json: ${{ secrets.SECRET_GCP_CREDENTIALS_JSON }}
