@@ -1,0 +1,59 @@
+name: 'kkeunapul'
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'kkeunapul'
+    runs-on: ubuntu-latest
+    environment: production
+  
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    steps:
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: ${{ secrets.SECRET_GCP_CREDENTIALS_JSON }}
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        version: '>= 363.0.0'
+        project_id: ${{ env.TF_VAR_GCP_PROJECT_ID }}
+
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Terraform Init
+      run: |
+        terraform init \
+          -backend-config="bucket=${{ env.ENV_TFSTATE_BUCKET }}" \
+          -backend-config="key=${{ env.ENV_TFSTATE_KEY }}" \
+          -backend-config="endpoint=${{ env.ENV_TFSTATE_ENDPOINT }}" \
+          -backend-config="access_key=${{ secrets.SECRET_TFSTATE_ACCESS_KEY }}" \
+          -backend-config="secret_key=${{ secrets.SECRET_TFSTATE_SECRET_KEY }}" 
+          
+    - name: Terraform Format
+      run: terraform fmt -check
+
+    - name: Terraform Plan
+      run: terraform plan -input=false
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -input=false
