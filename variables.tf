@@ -13,5 +13,5 @@ variable "GCP_GKE_NODE_NUM" {
 
 variable "GCP_GKE_NODE_TYPE" {
   type    = string
-  default = "e2-micro"
+  default = "e2-small"
 }
