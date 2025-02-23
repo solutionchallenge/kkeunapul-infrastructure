@@ -45,7 +45,7 @@ jobs:
         terraform init \
           -backend-config="bucket=${{ vars.ENV_TFSTATE_BUCKET }}" \
           -backend-config="key=${{ vars.ENV_TFSTATE_KEY }}" \
-          -backend-config="endpoints.s3=${{ vars.ENV_TFSTATE_ENDPOINT }}" \
+          -backend-config="endpoint=${{ vars.ENV_TFSTATE_ENDPOINT }}" \
           -backend-config="access_key=${{ secrets.SECRET_TFSTATE_ACCESS_KEY }}" \
           -backend-config="secret_key=${{ secrets.SECRET_TFSTATE_SECRET_KEY }}" 
           
