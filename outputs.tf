@@ -1,14 +1,4 @@
-output "k8s_cluster_id" {
-  value       = google_container_cluster.primary.id
-  description = "Kubernetes Cluster ID"
-}
-
-output "k8s_cluster_name" {
-  value       = google_container_cluster.primary.name
-  description = "Kubernetes Cluster Name"
-}
-
-output "k8s_cluster_ip" {
-  value       = google_container_cluster.primary.services_ipv4_cidr
+output "k8s_primary_ingress_ip" {
+  value       = module.compute.k8s_primary_cluster_ip
   description = "Kubernetes Cluster Name"
 }
