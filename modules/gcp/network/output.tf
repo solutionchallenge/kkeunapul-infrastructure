@@ -1,19 +1,19 @@
-output "vpc_main_name" {
-  value       = google_compute_network.vpc_main.name
-  description = "Main VPC Name"
+output "vpc_primary_name" {
+  value       = google_compute_network.vpc_primary.name
+  description = "Primary VPC Name"
 }
 
-output "subnet_main_name" {
-  value       = google_compute_subnetwork.subnet_main.name
-  description = "Main Subnet Name"
+output "subnet_primary_name" {
+  value       = google_compute_subnetwork.subnet_primary.name
+  description = "Primary Subnet Name"
 }
 
-output "ip_main_name" {
-  value       = google_compute_address.ip_main.name
-  description = "Main IP Name"
+output "ip_primary_name" {
+  value       = google_compute_address.ip_primary.name
+  description = "Primary IP Name"
 }
 
-output "ip_main_address" {
-  value       = google_compute_address.ip_main.address
-  description = "Main IP Address"
+output "ip_primary_address" {
+  value       = google_compute_address.ip_primary.address
+  description = "Primary IP Address"
 }

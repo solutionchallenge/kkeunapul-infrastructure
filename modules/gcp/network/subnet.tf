@@ -1,7 +1,7 @@
-resource "google_compute_subnetwork" "subnet_main" {
+resource "google_compute_subnetwork" "primary_subnet" {
   project       = var.GCP_PROJECT_ID
-  name          = "${var.GCP_PROJECT_ID}-subnet-main"
+  name          = "${var.GCP_PROJECT_ID}-subnet-primary"
   region        = var.GCP_REGION_ID
-  network       = google_compute_network.vpc_main.name
+  network       = google_compute_network.vpc_primary.name
   ip_cidr_range = "10.10.0.0/24"
 }
