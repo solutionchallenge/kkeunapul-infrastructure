@@ -7,5 +7,4 @@ resource "google_container_cluster" "primary" {
   initial_node_count       = 1
   network                  = var.GCP_GKE_VPC_NAME
   subnetwork               = var.GCP_GKE_SUBNET_NAME
-  depends_on               = [google_container_node_pool.primary]
 }
