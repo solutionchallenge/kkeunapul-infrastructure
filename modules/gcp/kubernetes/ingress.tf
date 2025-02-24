@@ -7,5 +7,5 @@ resource "kubernetes_ingress" "primary" {
     }
   }
   spec {}
-  depends_on = [google_container_cluster.primary, kubernetes_namespace.default]
+  depends_on = [google_container_cluster.primary]
 }
