@@ -5,6 +5,6 @@ resource "google_container_cluster" "primary" {
   min_master_version       = "1.30"
   remove_default_node_pool = true
   initial_node_count       = 1
-  network                  = google_compute_network.vpc_main.name
-  subnetwork               = google_compute_subnetwork.subnet_main.name
+  network                  = var.GCP_GKE_VPC_NAME
+  subnetwork               = var.GCP_GKE_SUBNET_NAME
 }

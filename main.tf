@@ -17,8 +17,16 @@ terraform {
   }
 }
 
-provider "google" {
-  alias   = "gcp"
-  project = var.GCP_PROJECT_ID
-  region  = var.GCP_REGION_ID
+module "network" {
+  source         = "./modules/gcp/network"
+  GCP_PROJECT_ID = var.GCP_PROJECT_ID
+  GCP_REGION_ID  = var.GCP_REGION_ID
+}
+
+module "compute" {
+  source              = "./modules/gcp/compute"
+  GCP_PROJECT_ID      = var.GCP_PROJECT_ID
+  GCP_REGION_ID       = var.GCP_REGION_ID
+  GCP_GKE_VPC_NAME    = module.network.vpc_main_name
+  GCP_GKE_SUBNET_NAME = module.network.subnet_main_name
 }
