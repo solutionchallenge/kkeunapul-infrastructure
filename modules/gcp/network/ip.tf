@@ -1,4 +1,4 @@
-resource "google_compute_address" "primary_ip" {
+resource "google_compute_address" "primary" {
   project      = var.GCP_PROJECT_ID
   name         = "${var.GCP_PROJECT_ID}-ip-primary"
   region       = var.GCP_REGION_ID
