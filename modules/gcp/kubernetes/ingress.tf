@@ -1,4 +1,4 @@
-resource "kubernetes_ingress_v1" "primary" {
+resource "kubernetes_ingress" "primary" {
   metadata {
     name      = "ingress-primary"
     namespace = var.GCP_GKE_DEFAULT_NAMESPACE
