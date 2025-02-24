@@ -29,4 +29,5 @@ module "compute" {
   GCP_REGION_ID       = var.GCP_REGION_ID
   GCP_GKE_VPC_NAME    = module.network.vpc_main_name
   GCP_GKE_SUBNET_NAME = module.network.subnet_main_name
+  GCP_GKE_INGRESS_IP  = module.network.ip_main_name
 }

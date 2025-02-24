@@ -7,11 +7,15 @@ variable "GCP_REGION_ID" {
 }
 
 variable "GCP_GKE_VPC_NAME" {
-  type    = string
+  type = string
 }
 
 variable "GCP_GKE_SUBNET_NAME" {
-  type    = string
+  type = string
+}
+
+variable "GCP_GKE_INGRESS_IP" {
+  type = string
 }
 
 variable "GCP_GKE_NODE_NUM" {
@@ -22,4 +26,9 @@ variable "GCP_GKE_NODE_NUM" {
 variable "GCP_GKE_NODE_TYPE" {
   type    = string
   default = "e2-small"
+}
+
+variable "GCP_GKE_DEFAULT_NAMESPACE" {
+  type    = string
+  default = "kkeunapul"
 }

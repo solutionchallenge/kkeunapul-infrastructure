@@ -8,7 +8,12 @@ output "k8s_primary_cluster_name" {
   description = "Kubernetes Primary Cluster Name"
 }
 
-output "k8s_primary_cluster_ip" {
-  value       = google_container_cluster.primary.services_ipv4_cidr
-  description = "Kubernetes Primary Cluster Name"
+output "k8s_primary_cluster_namespace" {
+  value       = var.GCP_GKE_DEFAULT_NAMESPACE
+  description = "Kubernetes Primary Cluster Namespace"
+}
+
+output "k8s_primary_ingress_ip" {
+  value       = var.GCP_GKE_INGRESS_IP
+  description = "Kubernetes Primary Ingress IP (Name)"
 }

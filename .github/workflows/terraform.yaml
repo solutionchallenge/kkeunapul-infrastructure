@@ -57,7 +57,7 @@ jobs:
           -backend-config="secret_key=${{ secrets.SECRET_TFSTATE_SECRET_KEY }}" 
           
     - name: Terraform Format
-      run: terraform fmt -check
+      run: terraform fmt -check --recursive
 
     - name: Terraform Plan
       run: terraform plan -input=false
