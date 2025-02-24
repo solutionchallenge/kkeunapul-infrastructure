@@ -1,4 +1,4 @@
-resource "kubernetes_ingress" "primary" {
+resource "kubernetes_ingress_v1" "primary" {
   metadata {
     name      = "ingress-primary"
     namespace = var.GCP_GKE_DEFAULT_NAMESPACE
@@ -7,5 +7,5 @@ resource "kubernetes_ingress" "primary" {
     }
   }
   spec {}
-  depends_on = [google_container_cluster.primary]
+  depends_on = [google_container_cluster.primary, kubernetes_namespace.default]
 }
