@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   terraform:
-    name: 'kkeunapul-production'
+    name: 'production'
     runs-on: ubuntu-latest
     environment: production
   
