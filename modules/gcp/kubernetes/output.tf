@@ -14,6 +14,11 @@ output "primary_cluster_namespace" {
 }
 
 output "primary_ingress_ip" {
-  value       = var.GCP_GKE_INGRESS_IP
-  description = "Kubernetes Primary Ingress IP (Name)"
+  value       = var.GCP_GKE_IP_NAME
+  description = "Kubernetes Primary IP Name"
+}
+
+output "primary_ingress_name" {
+  value       = var.GCP_GKE_INGRESS_NAME
+  description = "Kubernetes Primary Ingress Name"
 }
