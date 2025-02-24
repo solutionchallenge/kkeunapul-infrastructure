@@ -5,4 +5,5 @@ resource "kubernetes_namespace" "default" {
       name = "${var.GCP_GKE_DEFAULT_NAMESPACE}-namespace"
     }
   }
+  depends_on = [google_container_cluster.primary]
 }
