@@ -39,6 +39,7 @@ resource "kubernetes_service_v1" "proxy" {
     namespace = var.GCP_GKE_DEFAULT_NAMESPACE
   }
   spec {
+    type = "LoadBalancer"
     selector = {
       app = "default-proxy"
     }
