@@ -23,6 +23,27 @@ variable "GCP_GKE_IP_NAME" {
   description = "Kubernetes IP Name"
 }
 
+variable "GCP_GKE_INGRESS_RULE" {
+  type = list(object({
+    host = optional(string)
+    http = object({
+      path = list(object({
+        path      = string
+        path_type = string
+        backend = object({
+          service = object({
+            name = string
+            port = object({
+              number = number
+            })
+          })
+        })
+      }))
+    })
+  }))
+  description = "Kubernetes Ingress Rule"
+}
+
 variable "GCP_GKE_INGRESS_NAME" {
   type        = string
   default     = "ingress-primary"

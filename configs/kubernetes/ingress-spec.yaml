@@ -1,0 +1,10 @@
+rule:
+  - http:
+      path:
+        - path: "/"
+          path_type: "Prefix"
+          backend:
+            service:
+              name: "echo"
+              port:
+                number: 80
