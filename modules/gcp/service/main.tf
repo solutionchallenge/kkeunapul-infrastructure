@@ -23,6 +23,7 @@ resource "kubernetes_deployment_v1" "service" {
         container {
           name  = var.SERVICE_NAME
           image = var.SERVICE_IMAGE
+          args  = var.SERVICE_ARGS
           port {
             container_port = var.SERVICE_PORT
           }

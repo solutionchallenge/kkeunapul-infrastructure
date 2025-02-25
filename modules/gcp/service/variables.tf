@@ -28,6 +28,12 @@ variable "SERVICE_PORT" {
   description = "Service Port"
 }
 
+variable "SERVICE_ARGS" {
+  type        = list(string)
+  default     = [""]
+  description = "Service Arguments"
+}
+
 variable "SERVICE_EXPOSE" {
   type        = number
   default     = 80
