@@ -56,5 +56,6 @@ module "echo" {
   SERVICE_NAMESPACE = module.kubernetes.primary_cluster_namespace
   SERVICE_IMAGE     = "hashicorp/http-echo"
   SERVICE_PORT      = 80
-  SERVICE_ARGS      = ["-text", "'hello-world'"]
+  SERVICE_ARGS      = ["-text", "hello-world"]
+  SERVICE_REPLICAS = 3
 }

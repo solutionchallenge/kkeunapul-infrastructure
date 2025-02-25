@@ -42,6 +42,6 @@ variable "SERVICE_EXPOSE" {
 
 variable "SERVICE_REPLICAS" {
   type        = number
-  default     = 1
+  default     = 3
   description = "Service Replicas"
 }
