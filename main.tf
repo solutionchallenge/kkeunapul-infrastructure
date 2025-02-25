@@ -18,13 +18,13 @@ terraform {
 }
 
 module "network" {
-  source         = "./modules/infrastructures/gcp/network"
+  source         = "./modules/gcp/network"
   GCP_PROJECT_ID = var.GCP_PROJECT_ID
   GCP_REGION_ID  = var.GCP_REGION_ID
 }
 
 module "kubernetes" {
-  source              = "./modules/infrastructures/gcp/kubernetes"
+  source              = "./modules/gcp/kubernetes"
   GCP_PROJECT_ID      = var.GCP_PROJECT_ID
   GCP_REGION_ID       = var.GCP_REGION_ID
   GCP_GKE_VPC_NAME    = module.network.primary_vpc_name
@@ -49,8 +49,9 @@ module "kubernetes" {
 }
 
 module "echo" {
-  source            = "./modules/services/docker"
+  source            = "./modules/gcp/service"
   SERVICE_NAME      = "echo"
+  SERVICE_REGION    = var.GCP_REGION_ID
   SERVICE_NAMESPACE = module.kubernetes.primary_cluster_namespace
   SERVICE_IMAGE     = "hashicorp/http-echo"
   SERVICE_PORT      = 80

@@ -1,11 +1,16 @@
-variable "SERVICE_NAMESPACE" {
-  type        = string
-  description = "Service Namespace"
-}
-
 variable "SERVICE_NAME" {
   type        = string
   description = "Service Name"
+}
+
+variable "SERVICE_REGION" {
+  type        = string
+  description = "Service Region"
+}
+
+variable "SERVICE_NAMESPACE" {
+  type        = string
+  description = "Service Namespace"
 }
 
 variable "SERVICE_IMAGE" {
