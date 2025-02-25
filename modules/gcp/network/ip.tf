@@ -1,7 +1,6 @@
-resource "google_compute_address" "primary" {
+resource "google_compute_global_address" "primary" {
   project      = var.GCP_PROJECT_ID
   name         = "${var.GCP_PROJECT_ID}-ip-primary"
-  region       = var.GCP_REGION_ID
-  network_tier = "STANDARD"
+  purpose = "VPC_PEERING"
   address_type = "EXTERNAL"
 }
