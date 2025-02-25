@@ -51,6 +51,7 @@ module "kubernetes" {
 module "echo" {
   source            = "./modules/gcp/service"
   SERVICE_NAME      = "echo"
+  SERVICE_CLUSTER   = module.kubernetes.primary_cluster_name
   SERVICE_REGION    = var.GCP_REGION_ID
   SERVICE_NAMESPACE = module.kubernetes.primary_cluster_namespace
   SERVICE_IMAGE     = "hashicorp/http-echo"

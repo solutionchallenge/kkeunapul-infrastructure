@@ -1,7 +1,7 @@
 data "google_client_config" "default" {}
 
 data "google_container_cluster" "primary" {
-  name     = google_container_cluster.primary.name
+  name     = var.SERVICE_CLUSTER
   location = var.SERVICE_REGION
 }
 

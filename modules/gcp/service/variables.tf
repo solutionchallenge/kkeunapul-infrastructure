@@ -3,6 +3,11 @@ variable "SERVICE_NAME" {
   description = "Service Name"
 }
 
+variable "SERVICE_CLUSTER" {
+  type        = string
+  description = "Service Cluster"
+}
+
 variable "SERVICE_REGION" {
   type        = string
   description = "Service Region"
