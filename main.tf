@@ -30,7 +30,7 @@ module "kubernetes" {
   GCP_GKE_VPC_NAME    = module.network.primary_vpc_name
   GCP_GKE_SUBNET_NAME = module.network.primary_subnet_name
   GCP_GKE_IP_NAME     = module.network.primary_ip_name
-  GCP_GKE_INGRESS_RULE = {
+  GCP_GKE_INGRESS_RULE = [{
     http = {
       path = [{
         path      = "/"
@@ -45,7 +45,7 @@ module "kubernetes" {
         }
       }]
     }
-  }
+  }]
 }
 
 module "echo" {
