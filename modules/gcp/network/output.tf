@@ -9,11 +9,11 @@ output "primary_subnet_name" {
 }
 
 output "primary_ip_name" {
-  value       = google_compute_address.primary.name
+  value       = google_compute_global_address.primary.name
   description = "Primary IP Name"
 }
 
 output "primary_ip_address" {
-  value       = google_compute_address.primary.address
+  value       = google_compute_global_address.primary.address
   description = "Primary IP Address"
 }
