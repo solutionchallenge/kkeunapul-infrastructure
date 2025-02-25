@@ -43,8 +43,8 @@ resource "kubernetes_service_v1" "service" {
       app = var.SERVICE_NAME
     }
     port {
-      port        = var.SERVICE_PORT
-      target_port = var.SERVICE_EXPOSE
+      port        = var.SERVICE_EXPOSE
+      target_port = var.SERVICE_PORT
     }
   }
   depends_on = [kubernetes_deployment_v1.service]
