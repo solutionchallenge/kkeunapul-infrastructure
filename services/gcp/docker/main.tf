@@ -6,7 +6,7 @@ resource "kubernetes_deployment_v1" "service" {
       app = var.SERVICE_NAME
     }
     annotations = {
-      "cloud.google.com/neg" = "{\"ingress\": true}"
+      "cloud.google.com/neg"   = "{\"ingress\": true}"
       "DEPLOYMENT_FINGERPRINT" = timestamp()
     }
   }
