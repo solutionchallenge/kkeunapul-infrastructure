@@ -57,7 +57,7 @@ module "echo" {
   SERVICE_IMAGE     = "hashicorp/http-echo"
   SERVICE_PORT      = 80
   SERVICE_ARGS      = ["-text", "hello-world"]
-  SERVICE_REPLICAS  = 3
+  SERVICE_REPLICAS  = 1
   SERVICE_CPU       = ["200m", "200m"]
   SERVICE_MEMORY    = ["128Mi", "128Mi"]
 }
