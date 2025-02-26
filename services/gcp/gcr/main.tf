@@ -15,6 +15,7 @@ resource "kubernetes_deployment_v1" "service" {
     }
     annotations = {
       "cloud.google.com/neg" = "{\"ingress\": true}"
+      "DEPLOYMENT_FINGERPRINT" = timestamp()
     }
   }
   spec {
