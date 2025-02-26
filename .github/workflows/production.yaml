@@ -85,39 +85,45 @@ jobs:
 
     env:
       TF_VAR_CF_DOMAIN_NAME: ${{ vars.TF_VAR_CF_DOMAIN_NAME }}
+      LOCAL_ENV_PRIMARY_INGRESS_IP: ${{ needs.terraform.outputs.primary_ingress_ip }}
 
     steps:
       - name: Get Current DNS Record
         id: get-dns
         run: |
-          DNS_RECORD_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records?name=${{ env.TF_VAR_CF_DOMAIN_NAME }}" \
+          DNS_RECORD_RESPONSE=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records?name=${{ env.TF_VAR_CF_DOMAIN_NAME }}" \
             -H "Authorization: Bearer ${{ secrets.SECRET_CF_DNS_TOKEN }}" \
-            -H "Content-Type: application/json" | jq -r '.result[0].id // empty')
+            -H "Content-Type: application/json")
+          DNS_RECORD_ID=$(echo $DNS_RECORD_RESPONSE | jq -r '.result[0].id // empty')
+          DNS_RECORD_IP=$(echo $DNS_RECORD_RESPONSE | jq -r '.result[0].content // empty')
           echo "DNS_RECORD_ID=${DNS_RECORD_ID}" >> "$GITHUB_ENV"
+          echo "DNS_RECORD_IP=${DNS_RECORD_IP}" >> "$GITHUB_ENV"
 
       - name: Update or Create DNS Record
         run: |
-          if [ -n "$DNS_RECORD_ID" ]; then
-            echo "Updating existing DNS record... (${{ needs.terraform.outputs.primary_ingress_ip }} > ${{ env.TF_VAR_CF_DOMAIN_NAME }} > $DNS_RECORD_ID)"
+          if [ "$LOCAL_ENV_PRIMARY_INGRESS_IP" = "$DNS_RECORD_IP"]; then
+            echo "Keeping existing DNS record... ($DNS_RECORD_IP > ${{ env.TF_VAR_CF_DOMAIN_NAME }} = $DNS_RECORD_ID)"
+          elif [ -n "$DNS_RECORD_ID" ]; then
+            echo "Updating existing DNS record... ($LOCAL_ENV_PRIMARY_INGRESS_IP > ${{ env.TF_VAR_CF_DOMAIN_NAME }} > $DNS_RECORD_ID)"
             curl -X PUT "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records/$DNS_RECORD_ID" \
               -H "Authorization: Bearer ${{ secrets.SECRET_CF_DNS_TOKEN }}" \
               -H "Content-Type: application/json" \
               --data '{
                 "type": "A",
                 "name": "'"${{ env.TF_VAR_CF_DOMAIN_NAME }}"'",
-                "content": "'"${{ needs.terraform.outputs.primary_ingress_ip }}"'",
+                "content": "'"$LOCAL_ENV_PRIMARY_INGRESS_IP"'",
                 "ttl": 300,
                 "proxied": false
               }'
           else
-            echo "Creating new DNS record... (${{ needs.terraform.outputs.primary_ingress_ip }} > ${{ vars.VAR_CF_DOMAIN }})"
+            echo "Creating new DNS record... ($LOCAL_ENV_PRIMARY_INGRESS_IP > ${{ vars.VAR_CF_DOMAIN }})"
             curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records" \
               -H "Authorization: Bearer ${{ secrets.SECRET_CF_DNS_TOKEN }}" \
               -H "Content-Type: application/json" \
               --data '{
                 "type": "A",
                 "name": "'"${{ env.TF_VAR_CF_DOMAIN_NAME }}"'",
-                "content": "'"${{ needs.terraform.outputs.primary_ingress_ip }}"'",
+                "content": "'"$LOCAL_ENV_PRIMARY_INGRESS_IP"'",
                 "ttl": 300,
                 "proxied": false
               }'
