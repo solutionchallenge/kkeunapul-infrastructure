@@ -1,13 +1,13 @@
 data "google_client_config" "default" {}
 
 data "google_container_cluster" "primary" {
-  name     = google_container_cluster.primary.name
-  location = var.GCP_REGION_ID
+  name     = var.SERVICE_CLUSTER
+  location = var.SERVICE_REGION
 }
 
 provider "google" {
-  project = var.GCP_PROJECT_ID
-  region  = var.GCP_REGION_ID
+  project = var.SERVICE_PROJECT
+  region  = var.SERVICE_REGION
 }
 
 provider "kubernetes" {

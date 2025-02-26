@@ -8,6 +8,11 @@ output "primary_cluster_name" {
   description = "Kubernetes Primary Cluster Name"
 }
 
+output "primary_cluster_region" {
+  value = var.GCP_REGION_ID
+  description = "Kubernetes Primary Cluster Region"
+}
+
 output "primary_cluster_namespace" {
   value       = var.GCP_GKE_DEFAULT_NAMESPACE
   description = "Kubernetes Primary Cluster Namespace"

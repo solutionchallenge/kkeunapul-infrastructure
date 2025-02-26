@@ -1,3 +1,11 @@
+data "external" "digest" {
+  program = ["bash", "-c", <<EOT
+    gcloud container images describe gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_NAME}:latest \
+      --format='get(image_summary.digest)' --verbosity=none
+  EOT
+  ]
+}
+
 resource "kubernetes_deployment_v1" "service" {
   metadata {
     name      = var.SERVICE_NAME
@@ -20,6 +28,9 @@ resource "kubernetes_deployment_v1" "service" {
       metadata {
         labels = {
           app = var.SERVICE_NAME
+        }
+        annotations = {
+          "IMAGE_FINGERPRINT" = data.external.digest.result["digest"]
         }
       }
       spec {
