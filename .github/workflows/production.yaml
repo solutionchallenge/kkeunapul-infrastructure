@@ -24,6 +24,7 @@ jobs:
     env:
       TF_VAR_GCP_PROJECT_ID: ${{ vars.TF_VAR_GCP_PROJECT_ID }}
       TF_VAR_GCP_REGION_ID: ${{ vars.TF_VAR_GCP_REGION_ID }}
+      TF_VAR_CF_DOMAIN_NAME: ${{ vars.TF_VAR_CF_DOMAIN_NAME }}
 
     steps:
     - name: Checkout
