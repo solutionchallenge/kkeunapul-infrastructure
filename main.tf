@@ -51,12 +51,13 @@ module "kubernetes" {
 }
 
 module "echo" {
-  source            = "./services/gcp/docker"
+  source            = "./services/gcp/gcr"
   SERVICE_NAME      = "echo"
+  SERVICE_PROJECT   = var.GCP_PROJECT_ID
   SERVICE_CLUSTER   = module.kubernetes.primary_cluster_name
   SERVICE_REGION    = module.kubernetes.primary_cluster_region
   SERVICE_NAMESPACE = module.kubernetes.primary_cluster_namespace
-  SERVICE_IMAGE     = "hashicorp/http-echo"
+  SERVICE_IMAGE     = "http-echo"
   SERVICE_PORT      = 5678
   SERVICE_ARGS      = ["-text", "hello-world"]
   SERVICE_REPLICAS  = 1
