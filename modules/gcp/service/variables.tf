@@ -72,6 +72,6 @@ variable "SERVICE_HEALTHCHECK_DELAY" {
 
 variable "SERVICE_HEALTHCHECK_PERIOD" {
   type        = number
-  default     = 5
+  default     = 30
   description = "Service Health-check Period (sec)"
 }
