@@ -1,7 +1,7 @@
 data "external" "digest" {
   program = ["bash", "-c", <<EOT
-    gcloud container images describe gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_NAME}:latest \
-      --format='get(image_summary.digest)' --verbosity=none
+    gcloud container images list-tags gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_NAME} \
+      --filter="tags:latest" --format="value(digest)"
   EOT
   ]
 }
@@ -31,13 +31,13 @@ resource "kubernetes_deployment_v1" "service" {
           app = var.SERVICE_NAME
         }
         annotations = {
-          "IMAGE_FINGERPRINT" = data.external.digest.result["digest"]
+          "IMAGE_FINGERPRINT" = data.external.digest.result["stdout"]
         }
       }
       spec {
         container {
           name  = var.SERVICE_NAME
-          image = "gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_NAME}@${data.external.digest.result["digest"]}"
+          image = "gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_NAME}@${data.external.digest.result["stdout"]}"
           args  = var.SERVICE_ARGS
           port {
             container_port = var.SERVICE_PORT
