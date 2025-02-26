@@ -94,7 +94,7 @@ jobs:
               -H "Content-Type: application/json" \
               --data '{
                 "type": "A",
-                "name": "'"${{ var.VAR_CF_DOMAIN }}"'",
+                "name": "'"${{ vars.VAR_CF_DOMAIN }}"'",
                 "content": "'"${{ needs.terraform.outputs.primary_ingress_ip }}"'",
                 "ttl": 300,
                 "proxied": false
@@ -106,8 +106,8 @@ jobs:
               -H "Content-Type: application/json" \
               --data '{
                 "type": "A",
-                "name": "'"${{ var.VAR_CF_DOMAIN }}"'",
-                "content": "'"${{ needs.terraform.outputs.instance_ip }}"'",
+                "name": "'"${{ vars.VAR_CF_DOMAIN }}"'",
+                "content": "'"${{ needs.terraform.outputs.primary_ingress_ip }}"'",
                 "ttl": 300,
                 "proxied": false
               }'
