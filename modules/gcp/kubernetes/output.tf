@@ -9,7 +9,7 @@ output "primary_cluster_name" {
 }
 
 output "primary_cluster_region" {
-  value = var.GCP_REGION_ID
+  value       = var.GCP_REGION_ID
   description = "Kubernetes Primary Cluster Region"
 }
 

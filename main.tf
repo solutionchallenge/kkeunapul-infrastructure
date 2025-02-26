@@ -51,7 +51,7 @@ module "kubernetes" {
 }
 
 module "echo" {
-  source            = "./services/docker"
+  source            = "./services/gcp/docker"
   SERVICE_NAME      = "echo"
   SERVICE_CLUSTER   = module.kubernetes.primary_cluster_name
   SERVICE_REGION    = module.kubernetes.primary_cluster_region
