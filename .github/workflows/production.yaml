@@ -82,11 +82,14 @@ jobs:
       run:
         shell: bash
 
+    env:
+      TF_VAR_CF_DOMAIN_NAME: ${{ vars.TF_VAR_CF_DOMAIN_NAME }}
+
     steps:
       - name: Get Current DNS Record
         id: get-dns
         run: |
-          DNS_RECORD_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records?name=${{ vars.VAR_CF_DOMAIN }}" \
+          DNS_RECORD_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records?name=${{ env.TF_VAR_CF_DOMAIN_NAME }}" \
             -H "Authorization: Bearer ${{ secrets.SECRET_CF_DNS_TOKEN }}" \
             -H "Content-Type: application/json" | jq -r '.result[0].id // empty')
           echo "DNS_RECORD_ID=${DNS_RECORD_ID}" >> "$GITHUB_ENV"
@@ -94,13 +97,13 @@ jobs:
       - name: Update or Create DNS Record
         run: |
           if [ -n "$DNS_RECORD_ID" ]; then
-            echo "Updating existing DNS record... (${{ needs.terraform.outputs.primary_ingress_ip }} > ${{ vars.VAR_CF_DOMAIN }} > $DNS_RECORD_ID)"
+            echo "Updating existing DNS record... (${{ needs.terraform.outputs.primary_ingress_ip }} > ${{ env.TF_VAR_CF_DOMAIN_NAME }} > $DNS_RECORD_ID)"
             curl -X PUT "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records/$DNS_RECORD_ID" \
               -H "Authorization: Bearer ${{ secrets.SECRET_CF_DNS_TOKEN }}" \
               -H "Content-Type: application/json" \
               --data '{
                 "type": "A",
-                "name": "'"${{ vars.VAR_CF_DOMAIN }}"'",
+                "name": "'"${{ env.TF_VAR_CF_DOMAIN_NAME }}"'",
                 "content": "'"${{ needs.terraform.outputs.primary_ingress_ip }}"'",
                 "ttl": 300,
                 "proxied": false
@@ -112,7 +115,7 @@ jobs:
               -H "Content-Type: application/json" \
               --data '{
                 "type": "A",
-                "name": "'"${{ vars.VAR_CF_DOMAIN }}"'",
+                "name": "'"${{ env.TF_VAR_CF_DOMAIN_NAME }}"'",
                 "content": "'"${{ needs.terraform.outputs.primary_ingress_ip }}"'",
                 "ttl": 300,
                 "proxied": false

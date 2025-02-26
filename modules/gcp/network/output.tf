@@ -17,3 +17,8 @@ output "primary_ip_address" {
   value       = google_compute_global_address.primary.address
   description = "Primary IP Address"
 }
+
+output "primary_cert_name" {
+  value       = google_compute_managed_ssl_certificate.primary
+  description = "Primary Certificate Name"
+}

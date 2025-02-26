@@ -7,3 +7,8 @@ variable "GCP_REGION_ID" {
   type        = string
   description = "GCP Region ID"
 }
+
+variable "GCP_CERT_DOMAIN" {
+  type        = string
+  description = "GCP Certificate Domain"
+}

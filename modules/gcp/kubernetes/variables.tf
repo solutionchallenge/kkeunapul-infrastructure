@@ -44,6 +44,12 @@ variable "GCP_GKE_INGRESS_RULE" {
   description = "Kubernetes Ingress Rule"
 }
 
+variable "GCP_GKE_INGRESS_CERT" {
+  type        = string
+  description = "Kubernetes Ingress Certificate"
+}
+
+
 variable "GCP_GKE_INGRESS_NAME" {
   type        = string
   default     = "ingress-primary"

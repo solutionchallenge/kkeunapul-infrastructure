@@ -18,9 +18,10 @@ terraform {
 }
 
 module "network" {
-  source         = "./modules/gcp/network"
-  GCP_PROJECT_ID = var.GCP_PROJECT_ID
-  GCP_REGION_ID  = var.GCP_REGION_ID
+  source          = "./modules/gcp/network"
+  GCP_PROJECT_ID  = var.GCP_PROJECT_ID
+  GCP_REGION_ID   = var.GCP_REGION_ID
+  GCP_CERT_DOMAIN = var.CF_DOMAIN_NAME
 }
 
 module "kubernetes" {
@@ -46,6 +47,7 @@ module "kubernetes" {
       }]
     }
   }]
+  GCP_GKE_INGRESS_CERT = module.network.primary_cert_name
 }
 
 module "echo" {
