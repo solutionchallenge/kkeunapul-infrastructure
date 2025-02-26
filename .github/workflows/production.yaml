@@ -1,0 +1,114 @@
+name: 'production'
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'terraform'
+    runs-on: ubuntu-latest
+    environment: production
+  
+    defaults:
+      run:
+        shell: bash
+    
+    env:
+      TF_VAR_GCP_PROJECT_ID: ${{ vars.TF_VAR_GCP_PROJECT_ID }}
+      TF_VAR_GCP_REGION_ID: ${{ vars.TF_VAR_GCP_REGION_ID }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: 'Log in Google Cloud SDK'
+      id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: ${{ secrets.SECRET_GCP_CREDENTIALS_JSON }}
+
+    - name: 'Set up Google Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        version: '>= 363.0.0'
+        project_id: ${{ env.TF_VAR_GCP_PROJECT_ID }}
+
+    - name: 'Report Google Environment'
+      run: 'echo "${{ env.TF_VAR_GCP_PROJECT_ID }}:${{ env.TF_VAR_GCP_REGION_ID }}"'
+
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Terraform Init
+      run: |
+        terraform init \
+          -backend-config="bucket=${{ vars.VAR_TFSTATE_BUCKET }}" \
+          -backend-config="key=${{ vars.VAR_TFSTATE_KEY }}" \
+          -backend-config="endpoint=${{ vars.VAR_TFSTATE_ENDPOINT }}" \
+          -backend-config="access_key=${{ secrets.SECRET_TFSTATE_ACCESS_KEY }}" \
+          -backend-config="secret_key=${{ secrets.SECRET_TFSTATE_SECRET_KEY }}" 
+          
+    - name: Terraform Format
+      run: terraform fmt -check --recursive
+
+    - name: Terraform Plan
+      run: terraform plan -input=false
+
+    - name: Terraform Apply
+      if: github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false
+  
+  domain:
+    name: 'domain'
+    needs: terraform
+    runs-on: ubuntu-latest
+    environment: production
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Get Current DNS Record
+        id: get-dns
+        run: |
+          DNS_RECORD_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records?name=$RECORD_NAME" \
+            -H "Authorization: Bearer ${{ secrets.SECRET_CF_DNS_TOKEN }}" \
+            -H "Content-Type: application/json" | jq -r '.result[0].id')
+          echo "DNS_RECORD_ID=${DNS_RECORD_ID}" >> "$GITHUB_ENV"
+
+      - name: Update or Create DNS Record
+        run: |
+          if [ -n "$DNS_RECORD_ID" ]; then
+            echo "Updating existing DNS record..."
+            curl -X PUT "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records/$DNS_RECORD_ID" \
+              -H "Authorization: Bearer ${{ secrets.SECRET_CF_DNS_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              --data '{
+                "type": "A",
+                "name": "'"${{ var.VAR_CF_DOMAIN }}"'",
+                "content": "'"${{ needs.terraform.outputs.primary_ingress_ip }}"'",
+                "ttl": 300,
+                "proxied": false
+              }'
+          else
+            echo "Creating new DNS record..."
+            curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records" \
+              -H "Authorization: Bearer ${{ secrets.SECRET_CF_DNS_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              --data '{
+                "type": "A",
+                "name": "'"${{ var.VAR_CF_DOMAIN }}"'",
+                "content": "'"${{ needs.terraform.outputs.instance_ip }}"'",
+                "ttl": 300,
+                "proxied": false
+              }'
+          fi
