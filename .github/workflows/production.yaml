@@ -82,7 +82,7 @@ jobs:
         run: |
           DNS_RECORD_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records?name=${{ vars.VAR_CF_DOMAIN }}" \
             -H "Authorization: Bearer ${{ secrets.SECRET_CF_DNS_TOKEN }}" \
-            -H "Content-Type: application/json" | jq -r '.result[0].id')
+            -H "Content-Type: application/json" | jq -r '.result[0].id // empty')
           echo "DNS_RECORD_ID=${DNS_RECORD_ID}" >> "$GITHUB_ENV"
 
       - name: Update or Create DNS Record
