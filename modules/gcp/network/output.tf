@@ -19,6 +19,6 @@ output "primary_ip_address" {
 }
 
 output "primary_cert_name" {
-  value       = google_compute_managed_ssl_certificate.primary
+  value       = google_compute_managed_ssl_certificate.primary.name
   description = "Primary Certificate Name"
 }
