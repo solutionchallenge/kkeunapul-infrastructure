@@ -15,7 +15,7 @@ jobs:
     environment: production
 
     outputs:
-      instance_ip: ${{ steps.extract-output.outputs.primary_ingress_ip }}
+      primary_ingress_ip: ${{ steps.extract-output.outputs.primary_ingress_ip }}
   
     defaults:
       run:
