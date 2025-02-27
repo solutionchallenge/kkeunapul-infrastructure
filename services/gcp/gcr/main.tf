@@ -38,7 +38,7 @@ resource "kubernetes_deployment_v1" "service" {
       spec {
         container {
           name  = var.SERVICE_NAME
-          image = "gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_NAME}@${data.external.digest.result["digest"]}"
+          image = "gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_IMAGE}@${data.external.digest.result["digest"]}"
           args  = var.SERVICE_ARGS
           port {
             container_port = var.SERVICE_PORT
