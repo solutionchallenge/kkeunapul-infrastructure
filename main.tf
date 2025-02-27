@@ -51,6 +51,7 @@ module "noop" {
   SERVICE_REGION    = module.kubernetes.primary_cluster_region
   SERVICE_NAMESPACE = module.kubernetes.primary_cluster_namespace
   SERVICE_IMAGE     = "kkeunapul-template-amd64"
+  SERVICE_ARGS      = null
   SERVICE_PORT      = 80
   SERVICE_EXPOSE    = 80
   SERVICE_REPLICAS  = 1
