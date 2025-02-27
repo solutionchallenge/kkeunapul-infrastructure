@@ -1,4 +1,4 @@
-name: 'production'
+name: production
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   terraform:
-    name: 'terraform'
+    name: terraform
     runs-on: ubuntu-latest
     environment: production
 
@@ -78,7 +78,7 @@ jobs:
       run: echo "primary_ingress_ip=$(terraform output -raw primary_ingress_ip)" >> "$GITHUB_OUTPUT"
   
   domain:
-    name: 'domain'
+    name: domain
     needs: terraform
     runs-on: ubuntu-latest
     environment: production
