@@ -8,6 +8,10 @@ resource "kubernetes_manifest" "frontend" {
     }
     spec = {
       sslPolicy = var.GCP_GKE_SSL_POLICY
+      redirectToHttps = {
+        enabled = true
+        responseCodeName = "MOVED_PERMANENTLY_DEFAULT"
+      }   
     }
   }
 }
@@ -22,7 +26,7 @@ resource "kubernetes_ingress_v1" "primary" {
       "kubernetes.io/ingress.global-static-ip-name" = var.GCP_GKE_IP_NAME
       "cloud.google.com/neg"                        = "{\"ingress\": true}"
       "networking.gke.io/managed-certificates"      = "${var.GCP_GKE_SSL_CERT}"
-      "networking.gke.io/v1beta1.FrontendConfig"    = kubernetes_manifest.frontend.manifest["metadata"].name
+      "networking.gke.io/v1beta1.FrontendConfig"    = kubernetes_manifest.frontend.manifest
     }
   }
   spec {
