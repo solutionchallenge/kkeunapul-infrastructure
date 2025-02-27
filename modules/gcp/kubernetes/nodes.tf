@@ -6,6 +6,8 @@ resource "google_container_node_pool" "primary" {
   node_count = var.GCP_GKE_NODE_NUM
   node_config {
     oauth_scopes = [
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/trace.append",
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
     ]
