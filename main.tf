@@ -27,7 +27,6 @@ module "network" {
   GCP_PROJECT_ID  = var.GCP_PROJECT_ID
   GCP_REGION_ID   = var.GCP_REGION_ID
   GCP_CERT_DOMAIN = var.CF_DOMAIN_NAME
-  depends_on      = [module.core]
 }
 
 module "kubernetes" {
@@ -55,7 +54,6 @@ module "kubernetes" {
       }]
     }
   }]
-  depends_on = [module.core]
 }
 
 module "echo" {
@@ -72,5 +70,4 @@ module "echo" {
   SERVICE_REPLICAS  = 1
   SERVICE_CPU       = ["200m", "200m"]
   SERVICE_MEMORY    = ["128Mi", "128Mi"]
-  depends_on        = [module.core]
 }
