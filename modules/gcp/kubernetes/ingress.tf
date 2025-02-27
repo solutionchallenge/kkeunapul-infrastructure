@@ -6,7 +6,6 @@ resource "kubernetes_ingress_v1" "primary" {
       name                                          = "${var.GCP_GKE_DEFAULT_NAMESPACE}-ingress"
       "kubernetes.io/ingress.class"                 = "gce"
       "kubernetes.io/ingress.global-static-ip-name" = var.GCP_GKE_IP_NAME
-      "kubernetes.io/ingress.allow-http"            = "false"
       "cloud.google.com/neg"                        = "{\"ingress\": true}"
       "networking.gke.io/managed-certificates"      = "${var.GCP_GKE_INGRESS_CERT}"
     }
