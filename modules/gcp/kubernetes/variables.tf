@@ -23,6 +23,16 @@ variable "GCP_GKE_IP_NAME" {
   description = "Kubernetes IP Name"
 }
 
+variable "GCP_GKE_SSL_CERT" {
+  type        = string
+  description = "Kubernetes SSL Certificate"
+}
+
+variable "GCP_GKE_SSL_POLICY" {
+  type        = string
+  description = "Kubernetes SSL Policy"
+}
+
 variable "GCP_GKE_INGRESS_RULE" {
   type = list(object({
     host = optional(string)
@@ -43,12 +53,6 @@ variable "GCP_GKE_INGRESS_RULE" {
   }))
   description = "Kubernetes Ingress Rule"
 }
-
-variable "GCP_GKE_INGRESS_CERT" {
-  type        = string
-  description = "Kubernetes Ingress Certificate"
-}
-
 
 variable "GCP_GKE_INGRESS_NAME" {
   type        = string

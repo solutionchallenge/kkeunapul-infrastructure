@@ -18,7 +18,12 @@ output "primary_ip_address" {
   description = "Primary IP Address"
 }
 
-output "primary_cert_name" {
+output "primary_ssl_cert" {
   value       = google_compute_managed_ssl_certificate.primary.name
-  description = "Primary Certificate Name"
+  description = "Primary SSL Certificate"
+}
+
+output "primary_ssl_policy" {
+  value       = google_compute_ssl_policy.primary.name
+  description = "Primary SSL Policy"
 }

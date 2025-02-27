@@ -1,13 +1,28 @@
+resource "kubernetes_manifest" "frontend" {
+  manifest = {
+    apiVersion = "networking.gke.io/v1beta1"
+    kind       = "FrontendConfig"
+    metadata = {
+      name      = "${var.GCP_PROJECT_ID}-frontend"
+      namespace = var.GCP_GKE_DEFAULT_NAMESPACE
+    }
+    spec = {
+      sslPolicy = var.GCP_GKE_SSL_POLICY
+    }
+  }
+}
+
 resource "kubernetes_ingress_v1" "primary" {
   metadata {
     name      = "ingress-primary"
     namespace = var.GCP_GKE_DEFAULT_NAMESPACE
     annotations = {
-      name                                          = "${var.GCP_GKE_DEFAULT_NAMESPACE}-ingress"
+      name                                          = "${var.GCP_PROJECT_ID}-ingress"
       "kubernetes.io/ingress.class"                 = "gce"
       "kubernetes.io/ingress.global-static-ip-name" = var.GCP_GKE_IP_NAME
       "cloud.google.com/neg"                        = "{\"ingress\": true}"
-      "networking.gke.io/managed-certificates"      = "${var.GCP_GKE_INGRESS_CERT}"
+      "networking.gke.io/managed-certificates"      = "${var.GCP_GKE_SSL_CERT}"
+      "networking.gke.io/v1beta1.FrontendConfig"    = kubernetes_manifest.frontend.manifest["metadata"].name
     }
   }
   spec {

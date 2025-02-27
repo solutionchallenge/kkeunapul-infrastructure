@@ -31,6 +31,8 @@ module "kubernetes" {
   GCP_GKE_VPC_NAME    = module.network.primary_vpc_name
   GCP_GKE_SUBNET_NAME = module.network.primary_subnet_name
   GCP_GKE_IP_NAME     = module.network.primary_ip_name
+  GCP_GKE_SSL_CERT    = module.network.primary_ssl_cert
+  GCP_GKE_SSL_POLICY  = module.network.primary_ssl_policy
   GCP_GKE_INGRESS_RULE = [{
     http = {
       path = [{
@@ -47,7 +49,6 @@ module "kubernetes" {
       }]
     }
   }]
-  GCP_GKE_INGRESS_CERT = module.network.primary_cert_name
 }
 
 module "echo" {
