@@ -27,10 +27,9 @@ module "core" {
 }
 
 module "network" {
-  source          = "./modules/gcp/network"
-  GCP_PROJECT_ID  = var.GCP_PROJECT_ID
-  GCP_REGION_ID   = var.GCP_REGION_ID
-  GCP_CERT_DOMAIN = var.CF_DOMAIN_NAME
+  source         = "./modules/gcp/network"
+  GCP_PROJECT_ID = var.GCP_PROJECT_ID
+  GCP_REGION_ID  = var.GCP_REGION_ID
 }
 
 module "kubernetes" {
@@ -40,8 +39,7 @@ module "kubernetes" {
   GCP_GKE_VPC_NAME     = module.network.primary_vpc_name
   GCP_GKE_SUBNET_NAME  = module.network.primary_subnet_name
   GCP_GKE_IP_NAME      = module.network.primary_ip_name
-  GCP_GKE_SSL_CERT     = module.network.primary_ssl_cert
-  GCP_GKE_SSL_POLICY   = module.network.primary_ssl_policy
+  GCP_GKE_SSL_DOMAIN   = var.CF_DOMAIN_NAME
   GCP_GKE_INGRESS_RULE = local.ingress["rules"]
 }
 

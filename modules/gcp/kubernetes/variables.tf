@@ -23,14 +23,9 @@ variable "GCP_GKE_IP_NAME" {
   description = "Kubernetes IP Name"
 }
 
-variable "GCP_GKE_SSL_CERT" {
+variable "GCP_GKE_SSL_DOMAIN" {
   type        = string
-  description = "Kubernetes SSL Certificate"
-}
-
-variable "GCP_GKE_SSL_POLICY" {
-  type        = string
-  description = "Kubernetes SSL Policy"
+  description = "Kubernetes SSL Domain"
 }
 
 variable "GCP_GKE_INGRESS_RULE" {
