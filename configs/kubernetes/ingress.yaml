@@ -1,4 +1,4 @@
-rule:
+rules:
   - http:
       path:
         - path: "/"
@@ -7,4 +7,4 @@ rule:
             service:
               name: "echo"
               port:
-                number: 80
+                number: 443

@@ -17,6 +17,10 @@ terraform {
   }
 }
 
+locals {
+  ingress = yamldecode(file("${path.root}/configs/kubernetes/ingress.yaml"))
+}
+
 module "core" {
   source         = "./modules/gcp/core"
   GCP_PROJECT_ID = var.GCP_PROJECT_ID
@@ -30,30 +34,15 @@ module "network" {
 }
 
 module "kubernetes" {
-  source              = "./modules/gcp/kubernetes"
-  GCP_PROJECT_ID      = var.GCP_PROJECT_ID
-  GCP_REGION_ID       = var.GCP_REGION_ID
-  GCP_GKE_VPC_NAME    = module.network.primary_vpc_name
-  GCP_GKE_SUBNET_NAME = module.network.primary_subnet_name
-  GCP_GKE_IP_NAME     = module.network.primary_ip_name
-  GCP_GKE_SSL_CERT    = module.network.primary_ssl_cert
-  GCP_GKE_SSL_POLICY  = module.network.primary_ssl_policy
-  GCP_GKE_INGRESS_RULE = [{
-    http = {
-      path = [{
-        path      = "/"
-        path_type = "Prefix"
-        backend = {
-          service = {
-            name = "echo"
-            port = {
-              number = 443
-            }
-          }
-        }
-      }]
-    }
-  }]
+  source               = "./modules/gcp/kubernetes"
+  GCP_PROJECT_ID       = var.GCP_PROJECT_ID
+  GCP_REGION_ID        = var.GCP_REGION_ID
+  GCP_GKE_VPC_NAME     = module.network.primary_vpc_name
+  GCP_GKE_SUBNET_NAME  = module.network.primary_subnet_name
+  GCP_GKE_IP_NAME      = module.network.primary_ip_name
+  GCP_GKE_SSL_CERT     = module.network.primary_ssl_cert
+  GCP_GKE_SSL_POLICY   = module.network.primary_ssl_policy
+  GCP_GKE_INGRESS_RULE = local.ingress["rules"]
 }
 
 module "echo" {
