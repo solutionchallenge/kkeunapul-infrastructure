@@ -32,7 +32,7 @@ resource "kubernetes_deployment_v1" "service" {
           app = var.SERVICE_NAME
         }
         annotations = {
-          "IMAGE_FINGERPRINT" = data.external.digest.result["stdout"]
+          "IMAGE_FINGERPRINT" = data.external.digest.result["digest"]
         }
       }
       spec {
