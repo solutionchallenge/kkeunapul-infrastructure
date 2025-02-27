@@ -1,6 +1,6 @@
 data "external" "digest" {
   program = ["bash", "-c", <<EOT
-    DIGEST=$(gcloud container images list-tags gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_NAME} \
+    DIGEST=$(gcloud container images list-tags gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_IMAGE} \
       --filter="tags:latest" --format="json" | jq -r 'if length > 0 then .[0].digest else "unknown" end')
     echo "{ \"digest\": \"$DIGEST\" }"
   EOT
