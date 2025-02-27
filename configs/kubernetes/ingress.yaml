@@ -5,6 +5,6 @@ rules:
           path_type: "Prefix"
           backend:
             service:
-              name: "echo"
+              name: "noop"
               port:
-                number: 443
+                number: 80
