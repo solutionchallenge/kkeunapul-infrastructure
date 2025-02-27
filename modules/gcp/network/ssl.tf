@@ -1,5 +1,5 @@
 resource "google_compute_ssl_policy" "primary" {
-  name            = "${var.GCP_PROJECT_ID}-policy"
+  name            = "${var.GCP_PROJECT_ID}-ssl-policy"
   profile         = "MODERN"
   min_tls_version = "TLS_1_2"
 }

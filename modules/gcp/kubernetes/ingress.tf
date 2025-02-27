@@ -14,10 +14,10 @@ resource "kubernetes_manifest" "frontend" {
 
 resource "kubernetes_ingress_v1" "primary" {
   metadata {
-    name      = "ingress-primary"
+    name      = "${var.GCP_PROJECT_ID}-ingress-primary"
     namespace = var.GCP_GKE_DEFAULT_NAMESPACE
     annotations = {
-      name                                          = "${var.GCP_PROJECT_ID}-ingress"
+      name                                          = "${var.GCP_PROJECT_ID}-ingress-primary"
       "kubernetes.io/ingress.class"                 = "gce"
       "kubernetes.io/ingress.global-static-ip-name" = var.GCP_GKE_IP_NAME
       "cloud.google.com/neg"                        = "{\"ingress\": true}"
