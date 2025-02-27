@@ -9,7 +9,8 @@ resource "kubernetes_manifest" "certificate" {
     apiVersion = "networking.gke.io/v1"
     kind       = "ManagedCertificate"
     metadata = {
-      name = "${var.GCP_PROJECT_ID}-ssl-certificate"
+      name      = "${var.GCP_PROJECT_ID}-ssl-certificate"
+      namespace = var.GCP_GKE_DEFAULT_NAMESPACE
     }
     spec = {
       domains = ["${var.GCP_GKE_SSL_DOMAIN}"]
