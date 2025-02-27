@@ -35,7 +35,7 @@ variable "SERVICE_PORT" {
 
 variable "SERVICE_ARGS" {
   type        = list(string)
-  default     = [""]
+  nullable    = true
   description = "Service Arguments"
 }
 
