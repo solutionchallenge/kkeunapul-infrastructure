@@ -40,7 +40,7 @@ module "kubernetes" {
           service = {
             name = "echo"
             port = {
-              number = 80
+              number = 443
             }
           }
         }
@@ -59,6 +59,7 @@ module "echo" {
   SERVICE_NAMESPACE = module.kubernetes.primary_cluster_namespace
   SERVICE_IMAGE     = "http-echo"
   SERVICE_PORT      = 5678
+  SERVICE_EXPOSE    = 443
   SERVICE_ARGS      = ["-text", "hello-world"]
   SERVICE_REPLICAS  = 1
   SERVICE_CPU       = ["200m", "200m"]
