@@ -1,7 +1,8 @@
 data "external" "digest" {
   program = ["bash", "-c", <<EOT
-    gcloud container images list-tags gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_NAME} \
-      --filter="tags:latest" --format="value(digest)"
+    DIGEST=$(gcloud container images list-tags gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_NAME} \
+      --filter="tags:latest" --format="json" | jq -r 'if length > 0 then .[0].digest else "unknown" end')
+    echo "{ \"digest\": \"$DIGEST\" }"
   EOT
   ]
 }
@@ -37,7 +38,7 @@ resource "kubernetes_deployment_v1" "service" {
       spec {
         container {
           name  = var.SERVICE_NAME
-          image = "gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_NAME}@${data.external.digest.result["stdout"]}"
+          image = "gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_NAME}@${data.external.digest.result["digest"]}"
           args  = var.SERVICE_ARGS
           port {
             container_port = var.SERVICE_PORT
