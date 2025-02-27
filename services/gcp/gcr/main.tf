@@ -39,7 +39,12 @@ resource "kubernetes_deployment_v1" "service" {
         container {
           name  = var.SERVICE_NAME
           image = "gcr.io/${var.SERVICE_PROJECT}/${var.SERVICE_IMAGE}@${data.external.digest.result["digest"]}"
-          args  = var.SERVICE_ARGS
+          dynamic "args" {
+            for_each = length(var.SERVICE_ARGS) > 0 ? [1] : []
+            content {
+              value = var.SERVICE_ARGS
+            }
+          }
           port {
             container_port = var.SERVICE_PORT
           }
