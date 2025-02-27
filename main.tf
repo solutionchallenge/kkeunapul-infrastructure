@@ -43,22 +43,6 @@ module "kubernetes" {
   GCP_GKE_INGRESS_RULE = local.ingress["rules"]
 }
 
-module "echo" {
-  source            = "./services/gcp/gcr"
-  SERVICE_NAME      = "echo"
-  SERVICE_PROJECT   = var.GCP_PROJECT_ID
-  SERVICE_CLUSTER   = module.kubernetes.primary_cluster_name
-  SERVICE_REGION    = module.kubernetes.primary_cluster_region
-  SERVICE_NAMESPACE = module.kubernetes.primary_cluster_namespace
-  SERVICE_IMAGE     = "http-echo-amd64"
-  SERVICE_PORT      = 5678
-  SERVICE_EXPOSE    = 443
-  SERVICE_ARGS      = ["-text", "hello-world"]
-  SERVICE_REPLICAS  = 1
-  SERVICE_CPU       = ["200m", "200m"]
-  SERVICE_MEMORY    = ["128Mi", "128Mi"]
-}
-
 module "noop" {
   source            = "./services/gcp/gcr"
   SERVICE_NAME      = "noop"
