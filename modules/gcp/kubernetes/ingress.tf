@@ -9,9 +9,9 @@ resource "kubernetes_manifest" "frontend" {
     spec = {
       sslPolicy = var.GCP_GKE_SSL_POLICY
       redirectToHttps = {
-        enabled = true
+        enabled          = true
         responseCodeName = "MOVED_PERMANENTLY_DEFAULT"
-      }   
+      }
     }
   }
 }
