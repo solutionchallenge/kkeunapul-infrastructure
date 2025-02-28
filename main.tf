@@ -43,19 +43,18 @@ module "kubernetes" {
   GCP_GKE_INGRESS_RULE = local.ingress["rules"]
 }
 
-module "noop" {
-  source                   = "./services/gcp/gcr"
-  SERVICE_NAME             = "noop"
-  SERVICE_PROJECT          = var.GCP_PROJECT_ID
-  SERVICE_CLUSTER          = module.kubernetes.primary_cluster_name
-  SERVICE_REGION           = module.kubernetes.primary_cluster_region
-  SERVICE_NAMESPACE        = module.kubernetes.primary_cluster_namespace
-  SERVICE_IMAGE            = "kkeunapul-template-amd64"
-  SERVICE_ARGS             = null
-  SERVICE_PORT             = 80
-  SERVICE_EXPOSE           = 80
-  SERVICE_REPLICAS         = 1
-  SERVICE_CPU              = ["300m", "300m"]
-  SERVICE_MEMORY           = ["256Mi", "256Mi"]
-  SERVICE_HEALTHCHECK_PATH = "/"
+module "ondaum-client" {
+  source            = "./services/gcp/gcr"
+  SERVICE_NAME      = "ondaum-client"
+  SERVICE_PROJECT   = var.GCP_PROJECT_ID
+  SERVICE_CLUSTER   = module.kubernetes.primary_cluster_name
+  SERVICE_REGION    = module.kubernetes.primary_cluster_region
+  SERVICE_NAMESPACE = module.kubernetes.primary_cluster_namespace
+  SERVICE_IMAGE     = "ondaum-client-amd64"
+  SERVICE_ARGS      = null
+  SERVICE_PORT      = 80
+  SERVICE_EXPOSE    = 80
+  SERVICE_REPLICAS  = 1
+  SERVICE_CPU       = ["500m", "500m"]
+  SERVICE_MEMORY    = ["512Mi", "512Mi"]
 }
