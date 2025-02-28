@@ -41,6 +41,7 @@ module "kubernetes" {
   GCP_GKE_IP_NAME      = module.network.primary_ip_name
   GCP_GKE_SSL_DOMAIN   = var.CF_DOMAIN_NAME
   GCP_GKE_INGRESS_RULE = local.ingress["rules"]
+  GCP_GKE_NODE_TYPE    = "e2-medium"
 }
 
 module "ondaum-client" {
@@ -54,8 +55,8 @@ module "ondaum-client" {
   SERVICE_ARGS             = null
   SERVICE_PORT             = 80
   SERVICE_EXPOSE           = 80
-  SERVICE_REPLICAS         = 1
-  SERVICE_CPU              = ["500m", "500m"]
-  SERVICE_MEMORY           = ["512Mi", "512Mi"]
+  SERVICE_REPLICAS         = 3
+  SERVICE_CPU              = ["250m", "250m"]
+  SERVICE_MEMORY           = ["256Mi", "256Mi"]
   SERVICE_HEALTHCHECK_PATH = "/"
 }
