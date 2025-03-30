@@ -55,7 +55,7 @@ module "ondaum-client" {
   SERVICE_ARGS             = null
   SERVICE_PORT             = 80
   SERVICE_EXPOSE           = 80
-  SERVICE_REPLICAS         = 3
+  SERVICE_REPLICAS         = 2
   SERVICE_CPU              = ["250m", "250m"]
   SERVICE_MEMORY           = ["256Mi", "256Mi"]
   SERVICE_HEALTHCHECK_PATH = "/"
