@@ -1,11 +1,11 @@
-output "primary_ip_name" {
-  value       = module.network.primary_ip_name
-  description = "Service Primary IP Name"
-}
-
 output "primary_ip_address" {
   value       = module.network.primary_ip_address
   description = "Service Primary IP Address"
+}
+
+output "primary_ip_name" {
+  value       = module.network.primary_ip_name
+  description = "Service Primary IP Name"
 }
 
 output "primary_cluster_name" {
