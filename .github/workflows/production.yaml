@@ -19,8 +19,10 @@ jobs:
     environment: production
 
     outputs:
+      primary_ip_address: ${{ steps.extract-output.outputs.primary_ip_address }}
+      primary_ip_name: ${{ steps.extract-output.outputs.primary_ip_name }}
       primary_cluster_name: ${{ steps.extract-output.outputs.primary_cluster_name }}
-      primary_ingress_ip: ${{ steps.extract-output.outputs.primary_ingress_ip }}
+      primary_cluster_region: ${{ steps.extract-output.outputs.primary_cluster_region }}
   
     defaults:
       run:
@@ -63,7 +65,7 @@ jobs:
           -backend-config="key=${{ vars.VAR_TFSTATE_KEY }}-gcp" \
           -backend-config="endpoint=${{ vars.VAR_TFSTATE_ENDPOINT }}" \
           -backend-config="access_key=${{ secrets.SECRET_TFSTATE_ACCESS_KEY }}" \
-          -backend-config="secret_key=${{ secrets.SECRET_TFSTATE_SECRET_KEY }}" 
+          -backend-config="secret_key=${{ secrets.SECRET_TFSTATE_SECRET_KEY }}"
           
     - name: Terraform Format (GCP)
       working-directory: ./gcp
@@ -92,6 +94,10 @@ jobs:
     needs: terraform-gcp
     runs-on: ubuntu-latest
     environment: production
+
+    outputs:
+      primary_ingress_ip: ${{ steps.extract-output.outputs.primary_ingress_ip }}
+      primary_ingress_name: ${{ steps.extract-output.outputs.primary_ingress_name }}
 
     defaults:
       run:
@@ -131,7 +137,7 @@ jobs:
           -backend-config="key=${{ vars.VAR_TFSTATE_KEY }}-gke" \
           -backend-config="endpoint=${{ vars.VAR_TFSTATE_ENDPOINT }}" \
           -backend-config="access_key=${{ secrets.SECRET_TFSTATE_ACCESS_KEY }}" \
-          -backend-config="secret_key=${{ secrets.SECRET_TFSTATE_SECRET_KEY }}" 
+          -backend-config="secret_key=${{ secrets.SECRET_TFSTATE_SECRET_KEY }}"
           
     - name: Terraform Format (GKE)
       working-directory: ./gke
@@ -196,7 +202,7 @@ jobs:
                 "proxied": false
               }'
           else
-            echo "Creating new DNS record... ($LOCAL_ENV_PRIMARY_INGRESS_IP > ${{ vars.VAR_CF_DOMAIN }})"
+            echo "Creating new DNS record... ($LOCAL_ENV_PRIMARY_INGRESS_IP > ${{ env.TF_VAR_CF_DOMAIN_NAME }})"
             curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.SECRET_CF_ZONE_ID }}/dns_records" \
               -H "Authorization: Bearer ${{ secrets.SECRET_CF_DNS_TOKEN }}" \
               -H "Content-Type: application/json" \

@@ -1,5 +1,5 @@
 output "primary_ingress_ip" {
-  value       = var.GCP_PRIMARY_IP_ADDRESS
+  value       = module.gcp.primary_ingress_ip
   description = "Kubernetes Ingress IP"
 }
 

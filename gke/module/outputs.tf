@@ -1,6 +1,6 @@
 output "primary_ingress_ip" {
-  value       = var.GCP_GKE_IP_NAME
-  description = "Kubernetes Primary IP Name"
+  value       = kubernetes_ingress_v1.primary.status.0.load_balancer.0.ingress.0.ip
+  description = "Kubernetes Primary Ingress IP Address"
 }
 
 output "primary_ingress_name" {
