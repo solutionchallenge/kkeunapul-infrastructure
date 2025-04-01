@@ -35,9 +35,3 @@ variable "GCP_GKE_NODE_TYPE" {
   default     = "e2-small"
   description = "Kubernetes Node Machine Type"
 }
-
-variable "GCP_GKE_DEFAULT_NAMESPACE" {
-  type        = string
-  default     = "kkeunapul"
-  description = "Kubernetes Default Namespace"
-}
