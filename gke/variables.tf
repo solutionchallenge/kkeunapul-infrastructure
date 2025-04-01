@@ -11,13 +11,13 @@ variable "CF_DOMAIN_NAME" {
 }
 
 variable "GCP_GKE_CLUSTER_NAME" {
-  type        = string
+  type = string
 }
 
 variable "GCP_PRIMARY_IP_ADDRESS" {
-  type        = string
+  type = string
 }
 
 variable "GCP_PRIMARY_IP_NAME" {
-  type        = string
+  type = string
 }

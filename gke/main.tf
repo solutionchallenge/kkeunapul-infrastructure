@@ -41,7 +41,7 @@ module "ondaum-client" {
   SERVICE_PROJECT          = var.GCP_PROJECT_ID
   SERVICE_CLUSTER          = var.GCP_GKE_CLUSTER_NAME
   SERVICE_REGION           = var.GCP_REGION_ID
-  SERVICE_NAMESPACE        = "default"  # 적절한 네임스페이스 설정
+  SERVICE_NAMESPACE        = "default" # 적절한 네임스페이스 설정
   SERVICE_IMAGE            = "ondaum-client-amd64"
   SERVICE_ARGS             = null
   SERVICE_PORT             = 80
