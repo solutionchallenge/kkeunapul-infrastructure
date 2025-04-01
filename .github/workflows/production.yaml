@@ -148,7 +148,7 @@ jobs:
 
     - name: Extract Output (GKE)
       id: extract-output
-      working-directory: ./gcp
+      working-directory: ./gke
       run: |
         echo "primary_ingress_ip=$(terraform output -raw primary_ingress_ip)" >> "$GITHUB_OUTPUT"
         echo "primary_ingress_name=$(terraform output -raw primary_ingress_name)" >> "$GITHUB_OUTPUT"
