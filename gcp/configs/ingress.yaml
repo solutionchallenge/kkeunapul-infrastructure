@@ -1,0 +1,10 @@
+rules:
+  - http:
+      path:
+        - path: "/"
+          path_type: "Prefix"
+          backend:
+            service:
+              name: "ondaum-client"
+              port:
+                number: 80
