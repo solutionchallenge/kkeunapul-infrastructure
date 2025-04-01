@@ -8,6 +8,12 @@ variable "GCP_REGION_ID" {
   description = "GCP Region ID"
 }
 
+variable "GCP_LOCATION_IDS" {
+  type        = list(string)
+  default     = null
+  description = "GCP Location IDs"
+}
+
 variable "GCP_GKE_VPC_NAME" {
   type        = string
   description = "Kubernetes VPC Name"
