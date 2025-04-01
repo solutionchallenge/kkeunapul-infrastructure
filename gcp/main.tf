@@ -29,10 +29,10 @@ module "network" {
 }
 
 module "kubernetes" {
-  source               = "./modules/kubernetes"
-  GCP_PROJECT_ID       = var.GCP_PROJECT_ID
-  GCP_REGION_ID        = var.GCP_REGION_ID
-  GCP_GKE_VPC_NAME     = module.network.primary_vpc_name
-  GCP_GKE_SUBNET_NAME  = module.network.primary_subnet_name
-  GCP_GKE_NODE_TYPE    = "e2-medium"
+  source              = "./modules/kubernetes"
+  GCP_PROJECT_ID      = var.GCP_PROJECT_ID
+  GCP_REGION_ID       = var.GCP_REGION_ID
+  GCP_GKE_VPC_NAME    = module.network.primary_vpc_name
+  GCP_GKE_SUBNET_NAME = module.network.primary_subnet_name
+  GCP_GKE_NODE_TYPE   = "e2-medium"
 }
