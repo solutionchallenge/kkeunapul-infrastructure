@@ -5,5 +5,4 @@ resource "kubernetes_namespace" "default" {
       name = "${var.GCP_PROJECT_ID}-namespace"
     }
   }
-  depends_on = [google_container_cluster.primary]
 }
