@@ -27,7 +27,7 @@ locals {
 }
 
 module "gcp" {
-  source               = "./modules/gcp"
+  source               = "./module"
   GCP_PROJECT_ID       = var.GCP_PROJECT_ID
   GCP_REGION_ID        = var.GCP_REGION_ID
   GCP_GKE_IP_NAME      = var.GCP_PRIMARY_IP_NAME
