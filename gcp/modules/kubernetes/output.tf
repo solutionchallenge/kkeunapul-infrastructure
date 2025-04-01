@@ -17,13 +17,3 @@ output "primary_cluster_namespace" {
   value       = var.GCP_GKE_DEFAULT_NAMESPACE
   description = "Kubernetes Primary Cluster Namespace"
 }
-
-output "primary_ingress_ip" {
-  value       = var.GCP_GKE_IP_NAME
-  description = "Kubernetes Primary IP Name"
-}
-
-output "primary_ingress_name" {
-  value       = var.GCP_GKE_INGRESS_NAME
-  description = "Kubernetes Primary Ingress Name"
-}

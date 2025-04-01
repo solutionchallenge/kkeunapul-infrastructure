@@ -17,10 +17,6 @@ terraform {
   }
 }
 
-locals {
-  ingress = yamldecode(file("${path.root}/configs/ingress.yaml"))
-}
-
 module "core" {
   source         = "./modules/core"
   GCP_PROJECT_ID = var.GCP_PROJECT_ID
@@ -38,8 +34,5 @@ module "kubernetes" {
   GCP_REGION_ID        = var.GCP_REGION_ID
   GCP_GKE_VPC_NAME     = module.network.primary_vpc_name
   GCP_GKE_SUBNET_NAME  = module.network.primary_subnet_name
-  GCP_GKE_IP_NAME      = module.network.primary_ip_name
-  GCP_GKE_SSL_DOMAIN   = var.CF_DOMAIN_NAME
-  GCP_GKE_INGRESS_RULE = local.ingress["rules"]
   GCP_GKE_NODE_TYPE    = "e2-medium"
 }

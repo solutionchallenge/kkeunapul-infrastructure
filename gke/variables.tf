@@ -10,7 +10,14 @@ variable "CF_DOMAIN_NAME" {
   type = string
 }
 
-variable "GKE_CLUSTER_NAME" {
+variable "GCP_GKE_CLUSTER_NAME" {
   type        = string
-  description = "GKE cluster name created by infra workspace"
+}
+
+variable "GCP_PRIMARY_IP_ADDRESS" {
+  type        = string
+}
+
+variable "GCP_PRIMARY_IP_NAME" {
+  type        = string
 }

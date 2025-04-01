@@ -29,7 +29,6 @@ jobs:
     env:
       TF_VAR_GCP_PROJECT_ID: ${{ vars.TF_VAR_GCP_PROJECT_ID }}
       TF_VAR_GCP_REGION_ID: ${{ vars.TF_VAR_GCP_REGION_ID }}
-      TF_VAR_CF_DOMAIN_NAME: ${{ vars.TF_VAR_CF_DOMAIN_NAME }}
 
     steps:
     - name: Checkout
@@ -85,8 +84,8 @@ jobs:
         echo "primary_cluster_name=$(terraform output -raw primary_cluster_name)" >> "$GITHUB_OUTPUT"
         echo "primary_ingress_ip=$(terraform output -raw primary_ingress_ip)" >> "$GITHUB_OUTPUT"
   
-  terraform-k8s:
-    name: terraform-k8s
+  terraform-gke:
+    name: terraform-gke
     needs: terraform-gcp
     runs-on: ubuntu-latest
     environment: production
@@ -99,7 +98,9 @@ jobs:
       TF_VAR_GCP_PROJECT_ID: ${{ vars.TF_VAR_GCP_PROJECT_ID }}
       TF_VAR_GCP_REGION_ID: ${{ vars.TF_VAR_GCP_REGION_ID }}
       TF_VAR_CF_DOMAIN_NAME: ${{ vars.TF_VAR_CF_DOMAIN_NAME }}
-      TF_VAR_GKE_CLUSTER_NAME: ${{ needs.terraform-gcp.outputs.primary_cluster_name }}
+      TF_VAR_GCP_GKE_CLUSTER_NAME: ${{ needs.terraform-gcp.outputs.primary_cluster_name }}
+      TF_VAR_GCP_PRIMARY_IP_ADDRESS: ${{ needs.terraform-gcp.outputs.primary_ip_address }}
+      TF_VAR_GCP_PRIMARY_IP_NAME: ${{ needs.terraform-gcp.outputs.primary_ip_name }}
 
     steps:
     - name: Checkout
@@ -119,32 +120,32 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
-    - name: Terraform Init (K8s)
-      working-directory: ./k8s
+    - name: Terraform Init (GKE)
+      working-directory: ./gke
       run: |
         terraform init \
           -backend-config="bucket=${{ vars.VAR_TFSTATE_BUCKET }}" \
-          -backend-config="key=${{ vars.VAR_TFSTATE_KEY }}-k8s" \
+          -backend-config="key=${{ vars.VAR_TFSTATE_KEY }}-gke" \
           -backend-config="endpoint=${{ vars.VAR_TFSTATE_ENDPOINT }}" \
           -backend-config="access_key=${{ secrets.SECRET_TFSTATE_ACCESS_KEY }}" \
           -backend-config="secret_key=${{ secrets.SECRET_TFSTATE_SECRET_KEY }}" 
           
-    - name: Terraform Format (K8S)
-      working-directory: ./k8s
+    - name: Terraform Format (GKE)
+      working-directory: ./gke
       run: terraform fmt -check --recursive
 
-    - name: Terraform Plan (K8S)
-      working-directory: ./k8s
+    - name: Terraform Plan (GKE)
+      working-directory: ./gke
       run: terraform plan -input=false
 
-    - name: Terraform Apply (K8S)
+    - name: Terraform Apply (GKE)
       if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-      working-directory: ./k8s
+      working-directory: ./gke
       run: terraform apply -auto-approve -input=false
   
   set-domain:
     name: domain
-    needs: [terraform-gcp, terraform-k8s]
+    needs: [terraform-gcp, terraform-gke]
     runs-on: ubuntu-latest
     environment: production
 
@@ -154,7 +155,7 @@ jobs:
 
     env:
       TF_VAR_CF_DOMAIN_NAME: ${{ vars.TF_VAR_CF_DOMAIN_NAME }}
-      LOCAL_ENV_PRIMARY_INGRESS_IP: ${{ needs.terraform-gcp.outputs.primary_ingress_ip }}
+      LOCAL_ENV_PRIMARY_INGRESS_IP: ${{ needs.terraform-gke.outputs.primary_ingress_ip }}
 
     steps:
       - name: Get Current DNS Record

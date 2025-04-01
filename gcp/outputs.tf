@@ -1,6 +1,11 @@
-output "primary_ingress_ip" {
+output "primary_ip_name" {
+  value       = module.network.primary_ip_name
+  description = "Service Primary IP Name"
+}
+
+output "primary_ip_address" {
   value       = module.network.primary_ip_address
-  description = "Kubernetes Ingress IP"
+  description = "Service Primary IP Address"
 }
 
 output "primary_cluster_name" {

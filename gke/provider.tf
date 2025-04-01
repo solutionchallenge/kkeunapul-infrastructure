@@ -1,7 +1,7 @@
 data "google_client_config" "default" {}
 
 data "google_container_cluster" "primary" {
-  name     = var.GKE_CLUSTER_NAME
+  name     = var.GCP_GKE_CLUSTER_NAME
   location = var.GCP_REGION_ID
 }
 

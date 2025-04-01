@@ -21,11 +21,25 @@ terraform {
   }
 }
 
+
+locals {
+  ingress = yamldecode(file("${path.root}/../configs/ingress.yaml"))
+}
+
+module "gcp" {
+  source               = "./modules/gcp"
+  GCP_PROJECT_ID       = var.GCP_PROJECT_ID
+  GCP_REGION_ID        = var.GCP_REGION_ID
+  GCP_GKE_IP_NAME      = var.GCP_PRIMARY_IP_NAME
+  GCP_GKE_SSL_DOMAIN   = var.CF_DOMAIN_NAME
+  GCP_GKE_INGRESS_RULE = local.ingress["rules"]
+}
+
 module "ondaum-client" {
   source                   = "./services/gcr"
   SERVICE_NAME             = "ondaum-client"
   SERVICE_PROJECT          = var.GCP_PROJECT_ID
-  SERVICE_CLUSTER          = var.GKE_CLUSTER_NAME
+  SERVICE_CLUSTER          = var.GCP_GKE_CLUSTER_NAME
   SERVICE_REGION           = var.GCP_REGION_ID
   SERVICE_NAMESPACE        = "default"  # 적절한 네임스페이스 설정
   SERVICE_IMAGE            = "ondaum-client-amd64"

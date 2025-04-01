@@ -18,43 +18,6 @@ variable "GCP_GKE_SUBNET_NAME" {
   description = "Kubernetes Subnet Name"
 }
 
-variable "GCP_GKE_IP_NAME" {
-  type        = string
-  description = "Kubernetes IP Name"
-}
-
-variable "GCP_GKE_SSL_DOMAIN" {
-  type        = string
-  description = "Kubernetes SSL Domain"
-}
-
-variable "GCP_GKE_INGRESS_RULE" {
-  type = list(object({
-    host = optional(string)
-    http = object({
-      path = list(object({
-        path      = string
-        path_type = string
-        backend = object({
-          service = object({
-            name = string
-            port = object({
-              number = number
-            })
-          })
-        })
-      }))
-    })
-  }))
-  description = "Kubernetes Ingress Rule"
-}
-
-variable "GCP_GKE_INGRESS_NAME" {
-  type        = string
-  default     = "ingress-primary"
-  description = "Kubernetes Ingress Name"
-}
-
 variable "GCP_GKE_NODE_NUM" {
   type        = number
   default     = 1
