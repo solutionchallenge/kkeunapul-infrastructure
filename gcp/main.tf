@@ -45,4 +45,10 @@ module "database" {
   GCP_DB_VPC_LINK   = module.network.primary_vpc_link
   GCP_DB_IP_ENABLED = true
   GCP_DB_SVC_NET    = module.network.primary_svc_net
+  GCP_DB_USERS = {
+    ondaum = {
+      name     = "main"
+      password = ""
+    }
+  }
 }
