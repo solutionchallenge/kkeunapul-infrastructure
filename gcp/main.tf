@@ -47,7 +47,7 @@ module "database" {
   GCP_DB_SVC_NET    = module.network.primary_svc_net
   GCP_DB_USERS = {
     ondaum = {
-      name     = "ondaum"
+      name     = "main"
       password = ""
     }
   }
