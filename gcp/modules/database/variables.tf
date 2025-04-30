@@ -41,11 +41,3 @@ variable "GCP_DB_DELETION_PROTECTION" {
   default     = true
   description = "Enable Cloud SQL Deletion Protection"
 }
-
-variable "GCP_DB_USERS" {
-  type = map(object({
-    name     = string
-    password = string
-  }))
-  description = "Cloud SQL Database Users"
-}
