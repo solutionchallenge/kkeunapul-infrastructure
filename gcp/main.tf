@@ -42,7 +42,7 @@ module "database" {
   source          = "./modules/database"
   GCP_PROJECT_ID  = var.GCP_PROJECT_ID
   GCP_REGION_ID   = var.GCP_REGION_ID
-  GCP_DB_VPC_NAME = module.network.primary_vpc_name
+  GCP_DB_VPC_LINK = module.network.primary_vpc_link
   GCP_DB_USERS = {
     ondaum = {
       name     = "ondaum"

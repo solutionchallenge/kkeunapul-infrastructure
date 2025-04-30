@@ -20,15 +20,15 @@ variable "GCP_DB_MACHINE_TYPE" {
   description = "Cloud SQL Machine Type"
 }
 
-variable "GCP_DB_PUBLIC_IP" {
+variable "GCP_DB_IP_ENABLED" {
   type        = bool
   default     = false
   description = "Enable Public IP for Cloud SQL"
 }
 
-variable "GCP_DB_VPC_NAME" {
+variable "GCP_DB_VPC_LINK" {
   type        = string
-  description = "Cloud SQL Private Network ID"
+  description = "Cloud SQL Private Network Link"
 }
 
 variable "GCP_DB_DELETION_PROTECTION" {

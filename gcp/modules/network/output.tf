@@ -3,6 +3,11 @@ output "primary_vpc_name" {
   description = "Primary VPC Name"
 }
 
+output "primary_vpc_link" {
+  value       = google_compute_network.primary.self_link
+  description = "Primary VPC Link"
+}
+
 output "primary_subnet_name" {
   value       = google_compute_subnetwork.primary.name
   description = "Primary Subnet Name"

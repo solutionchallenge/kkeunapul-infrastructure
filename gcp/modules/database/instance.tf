@@ -7,8 +7,8 @@ resource "google_sql_database_instance" "primary" {
   settings {
     tier = var.GCP_DB_MACHINE_TYPE
     ip_configuration {
-      ipv4_enabled    = var.GCP_DB_PUBLIC_IP
-      private_network = var.GCP_DB_VPC_NAME
+      ipv4_enabled    = var.GCP_DB_IP_ENABLED
+      private_network = var.GCP_DB_VPC_LINK
     }
   }
 
