@@ -23,7 +23,7 @@ terraform {
 
 
 locals {
-  ingress = yamldecode(file("${path.root}/configs/ingress.yaml"))
+  ingress            = yamldecode(file("${path.root}/configs/ingress.yaml"))
   ondaum_server_envs = yamldecode(file("${path.root}/environments/ondaum-server.yaml"))
 }
 
@@ -44,6 +44,7 @@ module "ondaum-client" {
   SERVICE_REGION           = var.GCP_REGION_ID
   SERVICE_NAMESPACE        = module.gcp.primary_cluster_namespace
   SERVICE_IMAGE            = "ondaum-client-amd64"
+  SERVICE_ENVS             = null
   SERVICE_ARGS             = null
   SERVICE_PORT             = 80
   SERVICE_EXPOSE           = 80
