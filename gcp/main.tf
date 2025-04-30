@@ -37,3 +37,16 @@ module "kubernetes" {
   GCP_GKE_SUBNET_NAME = module.network.primary_subnet_name
   GCP_GKE_NODE_TYPE   = "e2-highcpu-4"
 }
+
+module "database" {
+  source                 = "./modules/database"
+  GCP_PROJECT_ID         = var.GCP_PROJECT_ID
+  GCP_REGION_ID          = var.GCP_REGION_ID
+  GCP_DB_PRIVATE_NETWORK = module.network.primary_vpc_id
+  GCP_DB_USERS = {
+    ondaum = {
+      name     = "ondaum"
+      password = ""
+    }
+  }
+}
