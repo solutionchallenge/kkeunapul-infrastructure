@@ -1,0 +1,15 @@
+- name: DATABASE_USER
+  secret_name: ondaum-secret-envs
+  secret_key: DATABASE_USER
+- name: DATABASE_PASSWORD
+  secret_name: ondaum-secret-envs
+  secret_key: DATABASE_PASSWORD
+- name: OAUTH_GOOGLE_CLIENT_ID
+  secret_name: ondaum-secret-envs
+  secret_key: OAUTH_GOOGLE_CLIENT_ID
+- name: OAUTH_GOOGLE_CLIENT_SECRET
+  secret_name: ondaum-secret-envs
+  secret_key: OAUTH_GOOGLE_CLIENT_SECRET
+- name: JWT_SECRET_KEY
+  secret_name: ondaum-secret-envs
+  secret_key: JWT_SECRET_KEY

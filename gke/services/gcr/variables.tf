@@ -33,6 +33,12 @@ variable "SERVICE_PORT" {
   description = "Service Port"
 }
 
+variable "SERVICE_ENVS" {
+  type        = string
+  nullable    = true
+  description = "Service Environment Variables in YAML format"
+}
+
 variable "SERVICE_ARGS" {
   type        = list(string)
   nullable    = true

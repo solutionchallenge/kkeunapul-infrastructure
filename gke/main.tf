@@ -24,6 +24,7 @@ terraform {
 
 locals {
   ingress = yamldecode(file("${path.root}/configs/ingress.yaml"))
+  ondaum_server_envs = yamldecode(file("${path.root}/environments/ondaum-server.yaml"))
 }
 
 module "gcp" {

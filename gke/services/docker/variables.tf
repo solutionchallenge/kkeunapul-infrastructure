@@ -75,3 +75,9 @@ variable "SERVICE_HEALTHCHECK_PERIOD" {
   default     = 30
   description = "Service Health-check Period (sec)"
 }
+
+variable "SERVICE_ENVS" {
+  type        = string
+  nullable    = true
+  description = "Service Environment Variables in YAML format"
+}

@@ -44,6 +44,18 @@ resource "kubernetes_deployment_v1" "service" {
               memory = var.SERVICE_MEMORY.1
             }
           }
+          dynamic "env" {
+            for_each = var.SERVICE_ENVS != null ? yamldecode(var.SERVICE_ENVS) : []
+            content {
+              name = env.value.name
+              value_from {
+                secret_key_ref {
+                  name = env.value.secret_name
+                  key  = env.value.secret_key
+                }
+              }
+            }
+          }
           liveness_probe {
             http_get {
               path = var.SERVICE_HEALTHCHECK_PATH
