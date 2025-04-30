@@ -15,8 +15,8 @@ resource "random_password" "db_user_passwords" {
 resource "google_sql_user" "global" {
   for_each = var.GCP_DB_USERS
 
-  project  = var.GCP_PROJECT_ID
-  name     = "${var.GCP_PROJECT_ID}-dba-${each.value.name}"
-  instance = google_sql_database_instance.primary.name
-  password = each.value.password != "" ? each.value.password : random_password.db_user_passwords[each.key].result
+  project     = var.GCP_PROJECT_ID
+  name        = "${var.GCP_PROJECT_ID}-dba-${each.value.name}"
+  instance    = google_sql_database_instance.primary.name
+  password_wo = each.value.password != "" ? each.value.password : random_password.db_user_passwords[each.key].result
 } 
