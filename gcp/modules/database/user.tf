@@ -1,5 +1,5 @@
 resource "random_password" "db_user_passwords" {
-  for_each = var.GCP_DB_USERS
+  for_each = { for k, v in var.GCP_DB_USERS : k => v if v.password == "" }
 
   length  = 16
   special = true

@@ -21,4 +21,4 @@ output "primary_db_private_ip" {
 output "primary_db_public_ip" {
   value       = google_sql_database_instance.primary.public_ip_address
   description = "Cloud SQL Primary Instance Public IP"
-} 
+}

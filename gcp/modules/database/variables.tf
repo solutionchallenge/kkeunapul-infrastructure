@@ -26,7 +26,7 @@ variable "GCP_DB_PUBLIC_IP" {
   description = "Enable Public IP for Cloud SQL"
 }
 
-variable "GCP_DB_PRIVATE_NETWORK" {
+variable "GCP_DB_VPC_NAME" {
   type        = string
   description = "Cloud SQL Private Network ID"
 }
@@ -42,6 +42,5 @@ variable "GCP_DB_USERS" {
     name     = string
     password = string
   }))
-  sensitive   = true
   description = "Cloud SQL Database Users"
 } 
