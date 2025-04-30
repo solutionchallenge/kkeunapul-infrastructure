@@ -22,3 +22,8 @@ output "primary_ip_address" {
   value       = google_compute_global_address.primary.address
   description = "Primary IP Address"
 }
+
+output "primary_svc_net" {
+  value       = google_service_networking_connection.primary
+  description = "Primary Service Networking Connection"
+}

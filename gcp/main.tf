@@ -39,10 +39,12 @@ module "kubernetes" {
 }
 
 module "database" {
-  source          = "./modules/database"
-  GCP_PROJECT_ID  = var.GCP_PROJECT_ID
-  GCP_REGION_ID   = var.GCP_REGION_ID
-  GCP_DB_VPC_LINK = module.network.primary_vpc_link
+  source            = "./modules/database"
+  GCP_PROJECT_ID    = var.GCP_PROJECT_ID
+  GCP_REGION_ID     = var.GCP_REGION_ID
+  GCP_DB_VPC_LINK   = module.network.primary_vpc_link
+  GCP_DB_IP_ENABLED = true
+  GCP_DB_SVC_NET    = module.network.primary_svc_net
   GCP_DB_USERS = {
     ondaum = {
       name     = "ondaum"

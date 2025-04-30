@@ -7,10 +7,13 @@ resource "google_sql_database_instance" "primary" {
   settings {
     tier = var.GCP_DB_MACHINE_TYPE
     ip_configuration {
-      ipv4_enabled    = var.GCP_DB_IP_ENABLED
-      private_network = var.GCP_DB_VPC_LINK
+      ipv4_enabled                                  = var.GCP_DB_IP_ENABLED
+      private_network                               = var.GCP_DB_VPC_LINK
+      enable_private_path_for_google_cloud_services = true
     }
   }
 
   deletion_protection = var.GCP_DB_DELETION_PROTECTION
+
+  depends_on = [var.GCP_DB_SVC_NET]
 }

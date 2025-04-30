@@ -28,7 +28,12 @@ variable "GCP_DB_IP_ENABLED" {
 
 variable "GCP_DB_VPC_LINK" {
   type        = string
-  description = "Cloud SQL Private Network Link"
+  description = "Cloud SQL VPC Link"
+}
+
+variable "GCP_DB_SVC_NET" {
+  type        = any
+  description = "Service Networking Connection Resource"
 }
 
 variable "GCP_DB_DELETION_PROTECTION" {
@@ -43,4 +48,4 @@ variable "GCP_DB_USERS" {
     password = string
   }))
   description = "Cloud SQL Database Users"
-} 
+}
