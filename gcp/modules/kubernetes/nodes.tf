@@ -11,12 +11,14 @@ resource "google_container_node_pool" "primary" {
       "https://www.googleapis.com/auth/trace.append",
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
+      "https://www.googleapis.com/auth/cloud-platform",
+      "https://www.googleapis.com/auth/sqlservice.admin"
     ]
     labels = {
       env = var.GCP_PROJECT_ID
     }
     machine_type = var.GCP_GKE_NODE_TYPE
-    tags         = ["k8s-nodes", "${var.GCP_PROJECT_ID}-k8s-primary"]
+    tags         = ["k8s-nodes", "${var.GCP_PROJECT_ID}-k8s-primary", "gcp-access-database"]
     metadata = {
       disable-legacy-endpoints = "true"
     }
