@@ -45,7 +45,7 @@ resource "kubernetes_deployment_v1" "service" {
             }
           }
           dynamic "env" {
-            for_each = var.SERVICE_ENVS != null ? yamldecode(var.SERVICE_ENVS) : []
+            for_each = var.SERVICE_ENVS != null ? var.SERVICE_ENVS : []
             content {
               name = env.value.name
               value_from {

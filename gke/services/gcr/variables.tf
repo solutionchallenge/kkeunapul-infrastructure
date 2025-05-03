@@ -34,7 +34,11 @@ variable "SERVICE_PORT" {
 }
 
 variable "SERVICE_ENVS" {
-  type        = string
+  type = list(object({
+    name        = string
+    secret_name = string
+    secret_key  = string
+  }))
   nullable    = true
   description = "Service Environment Variables in YAML format"
 }
