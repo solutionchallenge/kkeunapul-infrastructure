@@ -53,3 +53,21 @@ module "ondaum-client" {
   SERVICE_MEMORY           = ["256Mi", "256Mi"]
   SERVICE_HEALTHCHECK_PATH = "/"
 }
+
+module "ondaum-server" {
+  source                   = "./services/gcr"
+  SERVICE_NAME             = "ondaum-server"
+  SERVICE_PROJECT          = var.GCP_PROJECT_ID
+  SERVICE_CLUSTER          = var.GCP_GKE_CLUSTER_NAME
+  SERVICE_REGION           = var.GCP_REGION_ID
+  SERVICE_NAMESPACE        = module.gcp.primary_cluster_namespace
+  SERVICE_IMAGE            = "ondaum-server-amd64"
+  SERVICE_ENVS             = local.ondaum_server_envs
+  SERVICE_ARGS             = null
+  SERVICE_PORT             = 8080
+  SERVICE_EXPOSE           = 8080
+  SERVICE_REPLICAS         = 1
+  SERVICE_CPU              = ["180m", "180m"]
+  SERVICE_MEMORY           = ["256Mi", "256Mi"]
+  SERVICE_HEALTHCHECK_PATH = "/api/v1/_sys/health"
+}

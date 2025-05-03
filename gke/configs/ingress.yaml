@@ -1,6 +1,13 @@
 rules:
   - http:
       path:
+        - path: "/api/v1"
+          path_type: "Prefix"
+          backend:
+            service:
+              name: "ondaum-server"
+              port:
+                number: 8080
         - path: "/"
           path_type: "Prefix"
           backend:
