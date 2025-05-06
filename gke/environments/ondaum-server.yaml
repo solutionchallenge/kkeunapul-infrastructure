@@ -13,3 +13,6 @@
 - name: JWT_SECRET_KEY
   secret_name: ondaum-secret-envs
   secret_key: JWT_SECRET_KEY
+- name: LLM_GEMINI_API_KEY
+  secret_name: ondaum-secret-envs
+  secret_key: LLM_GEMINI_API_KEY
