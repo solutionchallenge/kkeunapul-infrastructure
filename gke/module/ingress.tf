@@ -36,6 +36,20 @@ resource "kubernetes_manifest" "frontend" {
   }
 }
 
+resource "kubernetes_manifest" "backend_config" {
+  manifest = {
+    apiVersion = "cloud.google.com/v1"
+    kind       = "BackendConfig"
+    metadata = {
+      name      = "${var.GCP_PROJECT_ID}-backend-config"
+      namespace = var.GCP_GKE_DEFAULT_NAMESPACE
+    }
+    spec = {
+      timeoutSec = 86400
+    }
+  }
+}
+
 resource "kubernetes_ingress_v1" "primary" {
   metadata {
     name      = "${var.GCP_PROJECT_ID}-ingress-primary"
@@ -47,6 +61,7 @@ resource "kubernetes_ingress_v1" "primary" {
       "cloud.google.com/neg"                        = "{\"ingress\": true}"
       "networking.gke.io/managed-certificates"      = kubernetes_manifest.certificate.manifest.metadata.name
       "networking.gke.io/v1beta1.FrontendConfig"    = kubernetes_manifest.frontend.manifest.metadata.name
+      "cloud.google.com/backend-config"             = "{\"default\": \"${kubernetes_manifest.backend_config.manifest.metadata.name}\"}"
     }
   }
   spec {
