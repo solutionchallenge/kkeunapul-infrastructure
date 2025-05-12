@@ -9,6 +9,8 @@ rules:
               port:
                 number: 8080
               timeout: 86400
+              draining:
+                timeout: 60
         - path: "/"
           path_type: "Prefix"
           backend:
@@ -17,3 +19,5 @@ rules:
               port:
                 number: 80
               timeout: 300
+              draining:
+                timeout: 60

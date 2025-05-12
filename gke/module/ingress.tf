@@ -3,11 +3,15 @@ locals {
     for service in flatten([
       for rule in var.GCP_GKE_INGRESS_RULE : [
         for path in rule.http.path : {
-          name    = path.backend.service.name
+          name = path.backend.service.name
           timeout = path.backend.service.timeout
+          draining = path.backend.service.draining
         }
       ]
-    ]) : service.name => service.timeout
+    ]) : service.name => {
+      timeout = service.timeout
+      draining = service.draining
+    }
   }
   backend_config_annotation_map = {
     for service_name in keys(local.backend_service_timeouts) :
@@ -64,7 +68,10 @@ resource "kubernetes_manifest" "backend_config" {
       namespace = var.GCP_GKE_DEFAULT_NAMESPACE
     }
     spec = {
-      timeoutSec = each.value
+      timeoutSec = each.value.timeout
+      connectionDraining = {
+        drainingTimeoutSec = each.value.draining.timeout
+      }
     }
   }
 }

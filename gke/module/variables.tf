@@ -32,6 +32,9 @@ variable "GCP_GKE_INGRESS_RULE" {
               number = number
             })
             timeout = optional(number, 300)
+            draining = optional(object({
+              timeout = optional(number, 60)
+            }), { timeout = 60 })
           })
         })
       }))
