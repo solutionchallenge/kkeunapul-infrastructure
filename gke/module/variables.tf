@@ -18,6 +18,12 @@ variable "GCP_GKE_SSL_DOMAIN" {
   description = "Kubernetes SSL Domain"
 }
 
+variable "GCP_GKE_INGRESS_TIMEOUT" {
+  type        = number
+  default     = 86400
+  description = "Kubernetes Ingress Timeout"
+}
+
 variable "GCP_GKE_INGRESS_RULE" {
   type = list(object({
     host = optional(string)

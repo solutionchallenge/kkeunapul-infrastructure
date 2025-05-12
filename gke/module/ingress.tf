@@ -45,7 +45,7 @@ resource "kubernetes_manifest" "backend_config" {
       namespace = var.GCP_GKE_DEFAULT_NAMESPACE
     }
     spec = {
-      timeoutSec = 86400
+      timeoutSec = var.GCP_GKE_INGRESS_TIMEOUT
     }
   }
 }
