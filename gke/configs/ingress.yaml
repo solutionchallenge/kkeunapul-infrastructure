@@ -8,6 +8,7 @@ rules:
               name: "ondaum-server"
               port:
                 number: 8080
+              timeout: 86400
         - path: "/"
           path_type: "Prefix"
           backend:
@@ -15,3 +16,4 @@ rules:
               name: "ondaum-client"
               port:
                 number: 80
+              timeout: 300
