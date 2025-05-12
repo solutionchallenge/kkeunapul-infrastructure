@@ -85,3 +85,15 @@ variable "SERVICE_HEALTHCHECK_PERIOD" {
   default     = 30
   description = "Service Health-check Period (sec)"
 }
+
+variable "SERVICE_REQUEST_TIMEOUT" {
+  type        = number
+  default     = 300
+  description = "Service Request Timeout (sec)"
+}
+
+variable "SERVICE_DRAINING_TIMEOUT" {
+  type        = number
+  default     = 60
+  description = "Service Draining Timeout (sec)"
+}

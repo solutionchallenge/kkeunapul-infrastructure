@@ -70,4 +70,6 @@ module "ondaum-server" {
   SERVICE_CPU              = ["180m", "180m"]
   SERVICE_MEMORY           = ["256Mi", "256Mi"]
   SERVICE_HEALTHCHECK_PATH = "/api/v1/_sys/health"
+  SERVICE_REQUEST_TIMEOUT  = 86400
+  SERVICE_DRAINING_TIMEOUT = 60
 }

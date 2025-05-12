@@ -78,12 +78,32 @@ resource "kubernetes_deployment_v1" "service" {
   }
 }
 
+resource "kubernetes_manifest" "backend_config" {
+  manifest = {
+    apiVersion = "cloud.google.com/v1"
+    kind       = "BackendConfig"
+    metadata = {
+      name      = "${var.SERVICE_NAME}-backend-config"
+      namespace = var.SERVICE_NAMESPACE
+    }
+    spec = {
+      timeoutSec = var.SERVICE_REQUEST_TIMEOUT
+      connectionDraining = {
+        drainingTimeoutSec = var.SERVICE_DRAINING_TIMEOUT
+      }
+    }
+  }
+}
+
 resource "kubernetes_service_v1" "service" {
   metadata {
     name      = var.SERVICE_NAME
     namespace = var.SERVICE_NAMESPACE
     annotations = {
       "cloud.google.com/neg" = "{\"ingress\": true}"
+      "cloud.google.com/backend-config" = jsonencode({
+        "default" = "${var.SERVICE_NAME}-backend-config"
+      })
     }
   }
   spec {
@@ -96,5 +116,5 @@ resource "kubernetes_service_v1" "service" {
       target_port = var.SERVICE_PORT
     }
   }
-  depends_on = [kubernetes_deployment_v1.service]
+  depends_on = [kubernetes_deployment_v1.service, kubernetes_manifest.backend_config]
 }

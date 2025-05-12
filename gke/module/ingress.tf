@@ -1,24 +1,3 @@
-locals {
-  backend_service_timeouts = {
-    for service in flatten([
-      for rule in var.GCP_GKE_INGRESS_RULE : [
-        for path in rule.http.path : {
-          name = path.backend.service.name
-          timeout = path.backend.service.timeout
-          draining = path.backend.service.draining
-        }
-      ]
-    ]) : service.name => {
-      timeout = service.timeout
-      draining = service.draining
-    }
-  }
-  backend_config_annotation_map = {
-    for service_name in keys(local.backend_service_timeouts) :
-    service_name => "${var.GCP_PROJECT_ID}-backend-config-${service_name}"
-  }
-}
-
 resource "google_compute_ssl_policy" "primary" {
   name            = "${var.GCP_PROJECT_ID}-ssl-policy"
   profile         = "MODERN"
@@ -57,25 +36,6 @@ resource "kubernetes_manifest" "frontend" {
   }
 }
 
-resource "kubernetes_manifest" "backend_config" {
-  for_each = local.backend_service_timeouts
-
-  manifest = {
-    apiVersion = "cloud.google.com/v1"
-    kind       = "BackendConfig"
-    metadata = {
-      name      = "${var.GCP_PROJECT_ID}-backend-config-${each.key}"
-      namespace = var.GCP_GKE_DEFAULT_NAMESPACE
-    }
-    spec = {
-      timeoutSec = each.value.timeout
-      connectionDraining = {
-        drainingTimeoutSec = each.value.draining.timeout
-      }
-    }
-  }
-}
-
 resource "kubernetes_ingress_v1" "primary" {
   metadata {
     name      = "${var.GCP_PROJECT_ID}-ingress-primary"
@@ -87,7 +47,6 @@ resource "kubernetes_ingress_v1" "primary" {
       "cloud.google.com/neg"                        = "{\"ingress\": true}"
       "networking.gke.io/managed-certificates"      = kubernetes_manifest.certificate.manifest.metadata.name
       "networking.gke.io/v1beta1.FrontendConfig"    = kubernetes_manifest.frontend.manifest.metadata.name
-      "cloud.google.com/backend-config"             = jsonencode(local.backend_config_annotation_map)
     }
   }
   spec {
