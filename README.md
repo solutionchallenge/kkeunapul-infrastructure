@@ -18,24 +18,55 @@ We want to help people around the world live healthier lives by being with Um, a
 Let's start https://ondaum.revimal.me/
 
 ## 🛠 SKILLS
-
+![Tech-Stack](https://raw.githubusercontent.com/solutionchallenge/.github/refs/heads/main/assets/images/Ondaum-Stack.png)
 
 ## 📁 DIRECTORY
 
 ```
-
+.
+├── gcp/                    # Google Cloud Platform infrastructure
+│   ├── modules/           # Reusable GCP infrastructure modules
+│   ├── main.tf            # Main GCP infrastructure configuration
+│   ├── variables.tf       # GCP infrastructure variables
+│   ├── outputs.tf         # GCP infrastructure outputs
+│   └── init.sh            # GCP infrastructure initialization script
+│
+├── gke/                    # Google Kubernetes Engine infrastructure
+│   ├── module/            # Reusable GKE infrastructure modules
+│   ├── configs/           # Kubernetes configuration files
+│   ├── environments/      # Environment-specific configurations
+│   ├── services/          # Kubernetes service definitions
+│   ├── main.tf            # Main GKE infrastructure configuration
+│   ├── variables.tf       # GKE infrastructure variables
+│   ├── outputs.tf         # GKE infrastructure outputs
+│   └── init.sh            # GKE infrastructure initialization script
+│
+└── .github/               # GitHub Actions workflows and templates
 ```
 
-## 🚀 INSTALLATION
+## 🚀 RUN
 
 ```bash
+# GCP Infrastructure Setup
+cd gcp
+./init.sh
+terraform init
+terraform plan
+terraform apply
 
+# GKE Infrastructure Setup
+cd ../gke
+./init.sh
+terraform init
+terraform plan
+terraform apply
 ```
 
 ## ⏥ ARCHITECTURE
-```mermaid
+![Infra-Architecture](https://raw.githubusercontent.com/solutionchallenge/.github/refs/heads/main/assets/images/Ondaum-Infrastructure.png)
 
-```
+## 💵 FORECAST
+![Financial-Forecast](https://raw.githubusercontent.com/solutionchallenge/.github/refs/heads/main/assets/images/Ondaum-Forecast.png)
 
 ## 📱 FEATURE
 - AI Counseling With Um
