@@ -44,7 +44,7 @@ Let's start https://ondaum.revimal.me/
 └── .github/               # GitHub Actions workflows and templates
 ```
 
-## 🚀 RUN
+## 🚀 PROVISION
 
 ```bash
 # GCP Infrastructure Setup
