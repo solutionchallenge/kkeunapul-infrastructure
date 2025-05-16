@@ -24,8 +24,12 @@ Let's start https://ondaum.revimal.me/
 
 ```
 .
-├── gcp/                    # Google Cloud Platform infrastructure
+├── gcp/                   # Google Cloud Platform infrastructure
 │   ├── modules/           # Reusable GCP infrastructure modules
+│   │   ├── core/          # Google provider definitions
+│   │   ├── database/      # Google-Cloud-SQL definitions
+│   │   ├── kubernetes/    # Google-Kubernetes-Engine definitions
+│   │   └── network/       # Google-Cloud-Network definitions
 │   ├── main.tf            # Main GCP infrastructure configuration
 │   ├── variables.tf       # GCP infrastructure variables
 │   ├── outputs.tf         # GCP infrastructure outputs
@@ -34,8 +38,10 @@ Let's start https://ondaum.revimal.me/
 ├── gke/                    # Google Kubernetes Engine infrastructure
 │   ├── module/            # Reusable GKE infrastructure modules
 │   ├── configs/           # Kubernetes configuration files
-│   ├── environments/      # Environment-specific configurations
+│   ├── environments/      # Environment-injection configurations
 │   ├── services/          # Kubernetes service definitions
+│   │   ├── docker/        # Docker service definitions
+│   │   └── gcr/           # Google-Container-Registry service definitions
 │   ├── main.tf            # Main GKE infrastructure configuration
 │   ├── variables.tf       # GKE infrastructure variables
 │   ├── outputs.tf         # GKE infrastructure outputs
@@ -45,7 +51,6 @@ Let's start https://ondaum.revimal.me/
 ```
 
 ## 🚀 PROVISION
-
 ```bash
 # GCP Infrastructure Setup
 cd gcp
